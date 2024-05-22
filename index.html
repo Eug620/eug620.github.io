@@ -1,13 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/cloudy-light.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eug</title>
+    <style>
+      @font-face {
+        font-family: "AlimamaFangYuanTiVF";
+        src: url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.woff2")
+            format("woff2"),
+          url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.woff")
+            format("woff"),
+          url("//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/AlimamaFangYuanTiVF-Thin.ttf")
+            format("ttf");
+        font-display: swap;
+      }
+      #app {
+        font-family: AlimamaFangYuanTiVF;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script src="https://api.vvhan.com/api/script/yinghua"></script>
   </body>
 </html>
