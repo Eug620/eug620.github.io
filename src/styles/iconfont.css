@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1716358037642') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-a-Overcastsky:before {
+  content: "\e60c";
+}
+
+.icon-sunny-light:before {
+  content: "\e60d";
+}
+
+.icon-sunny-night:before {
+  content: "\e60e";
+}
+
+.icon-cloudy-light:before {
+  content: "\e60f";
+}
+
+.icon-cloudy-night:before {
+  content: "\e610";
+}
+
+.icon-a-moderaterain:before {
+  content: "\e611";
+}
+
+.icon-rainstorm:before {
+  content: "\e612";
+}
+
+.icon-shower-light:before {
+  content: "\e613";
+}
+
+.icon-a-smallrain:before {
+  content: "\e614";
+}
+
+.icon-shower-night:before {
+  content: "\e615";
+}
+
+.icon-a-heavyrain:before {
+  content: "\e616";
+}
+
+.icon-a-Lightsnow:before {
+  content: "\e617";
+}
+
+.icon-thundershower:before {
+  content: "\e618";
+}
+
+.icon-sleet:before {
+  content: "\e619";
+}
+
+.icon-a-Moderatesnow:before {
+  content: "\e61a";
+}
+
+.icon-a-Heavysnow:before {
+  content: "\e61b";
+}
+
+.icon-blizzard:before {
+  content: "\e61c";
+}
+
+.icon-hailstone:before {
+  content: "\e61d";
+}
+
+.icon-haze:before {
+  content: "\e61e";
+}
+
+.icon-a-Sandblowing:before {
+  content: "\e61f";
+}
+
+.icon-a-Thefog:before {
+  content: "\e620";
+}
+
+.icon-snow:before {
+  content: "\e621";
+}
+

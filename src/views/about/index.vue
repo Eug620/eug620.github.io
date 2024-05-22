@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <router-view></router-view>
+  <div>
+    <RouterLink  to="/dashboard">首页</RouterLink >
+  </div>
 </template>
 
 <style scoped>
