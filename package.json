@@ -10,12 +10,14 @@
   },
   "dependencies": {
     "nprogress": "^0.2.0",
+    "three": "^0.164.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
     "@types/nprogress": "^0.2.3",
+    "@types/three": "^0.164.1",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
