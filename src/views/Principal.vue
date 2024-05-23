@@ -21,7 +21,6 @@ fetch('https://api.vvhan.com/api/text/love?type=json').then(async res => {
 
 <template>
   <div class="text-center h-full items-center flex ">
-    <RouterLink to="/about" class="text-sky-500 underline fixed bottom-10 right-10">去关于</RouterLink>
     <h2 class="text-center w-full">{{ content }}</h2>
   </div>
 </template>

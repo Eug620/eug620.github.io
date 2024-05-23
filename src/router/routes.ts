@@ -35,8 +35,8 @@ export const menus = [
     component: () => import("@/views/Three.vue"),
   },
   {
-    path: "about",
-    name: "about",
+    path: "About",
+    name: "About",
     meta: {
       keepAlive: false,
       title: "关于",

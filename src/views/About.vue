@@ -25,7 +25,6 @@ fetch('https://api.vvhan.com/api/ipInfo').then(async res => {
 
 <template>
   <div class="text-center  leading-10 py-10">
-    <RouterLink to="/dashboard" class="text-sky-500 underline fixed bottom-10 right-10">去首页</RouterLink>
         <div v-for="(v, k) in ipInfo.info " :key="k">
           {{ k }}: {{ v }}
         </div>
