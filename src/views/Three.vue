@@ -46,14 +46,17 @@ onMounted(() => {
     // 3. 创建相机
     const camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / window.innerHeight,
+        (refsThree.value as HTMLElement).offsetWidth / (refsThree.value as HTMLElement).offsetHeight,
         0.1,
         1000
     );
 
-    camera.position.set(0, 0, 40); //设置相机位置
+    camera.position.set(10, 10, 30); //设置相机位置
 
 
+
+    const helper = new THREE.GridHelper(1000, 1000)
+    scene.add(helper)
 
 
     // 设置光照
@@ -80,14 +83,11 @@ onMounted(() => {
             // let mesh = loadedModel.children[0].clone();
             scene.add(loadedModel);
             renderer.render(scene, camera);
-            const controls = new OrbitControls(camera, renderer.domElement);
-            controls.update();
+            // const controls = new OrbitControls(camera, renderer.domElement);
+            // controls.update();
 
         }
     );
-    console.log(scene);
-
-
     // const _loader = new GLTFLoader();
     // // 初始化模型解压器
     // const dracoLoader = new DRACOLoader()
@@ -134,8 +134,8 @@ onMounted(() => {
 
 
     // 交互
-    // const controls = new OrbitControls(camera, renderer.domElement);
-    // controls.update();
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.update();
 
 })
 
