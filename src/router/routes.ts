@@ -23,6 +23,18 @@ export const menus = [
     component: () => import("@/views/Principal.vue"),
   },
   {
+    path: "Movie",
+    name: "Movie",
+    meta: {
+      keepAlive: false,
+      title: "影视",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Movie.vue"),
+  },
+  {
     path: "Three",
     name: "Three",
     meta: {
