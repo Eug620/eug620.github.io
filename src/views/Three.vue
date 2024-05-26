@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 23:03:24
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-24 22:24:17
+ * @LastEditTime : 2024-05-26 22:46:56
  * @FilePath     : /eug620.github.io/src/views/Three.vue
  * @Description  : filename
  * 
@@ -20,11 +20,8 @@
 import { onMounted, ref } from "vue";
 import { useModelsStore } from '@/store/modules/models'
 const modelsStore = useModelsStore()
-const refsThree = ref()
 
-setTimeout(() => {
-    console.log(modelsStore.models);
-})
+const refsThree = ref()
 onMounted(() => {
     modelsStore.init(refsThree.value)
 })
