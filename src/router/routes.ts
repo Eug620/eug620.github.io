@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-22 23:04:10
+ * @LastEditTime : 2024-05-26 23:57:31
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -45,6 +45,18 @@ export const menus = [
       icon: "",
     },
     component: () => import("@/views/Three.vue"),
+  },
+  {
+    path: "Map",
+    name: "Map",
+    meta: {
+      keepAlive: false,
+      title: "地图",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Map.vue"),
   },
   {
     path: "About",

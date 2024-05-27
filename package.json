@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@amap/amap-jsapi-loader": "^1.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "three": "^0.164.1",
