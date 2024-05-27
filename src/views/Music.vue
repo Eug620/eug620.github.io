@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-27 23:30:13
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-28 00:30:55
+ * @LastEditTime : 2024-05-28 00:38:18
  * @FilePath     : /eug620.github.io/src/views/Music.vue
  * @Description  : filename
  * 
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, nextTick } from "vue";
+import { reactive, ref } from "vue";
 interface TypeMusicInfo {
     auther: string;
     id: string;
