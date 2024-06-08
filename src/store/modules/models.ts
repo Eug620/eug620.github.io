@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-23 23:55:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-26 22:53:21
+ * @LastEditTime : 2024-06-04 00:01:00
  * @FilePath     : /eug620.github.io/src/store/modules/models.ts
  * @Description  : filename
  *
@@ -92,28 +92,32 @@ export const useModelsStore = defineStore({
 
 
                 // this.scene.fog = new THREE.Fog('#ccc', 60, 60); //雾化场景
-                this.scene.background = new THREE.Color(0xf2f5f9);
+                // this.scene.background = new THREE.Color(0xf2f5f9);
 
-                // const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-                // directionalLight.position.set(10, 0, 10);
-                // this.scene.add(directionalLight);
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+                directionalLight.position.set(10, 0, 10);
+                this.scene.add(directionalLight);
 
-                // const light = new THREE.PointLight('#ffffff', 1, 100);
-                // light.position.set(50, 50, 50);
-                // this.scene.add(light);
+                const light = new THREE.PointLight('#ffffff', .8);
+                light.position.set(50, 50, 50);
+                light.castShadow = true;
+                this.scene.add(light);
 
                 // 地板 - 网格
-                const helper = new THREE.GridHelper(100, 100, '#fff', '#ccc');
+                const helper = new THREE.GridHelper(800, 800, '#fff', '#ccc');
+                helper.receiveShadow = true;
                 this.scene.add(helper);
 
                 // 地板 - 可以反光的地板
-                const PlaneGeometry = new THREE.PlaneGeometry(80, 80)
+                const PlaneGeometry = new THREE.PlaneGeometry(800, 800)
                 const MeshLambertMaterial = new THREE.MeshLambertMaterial({ color: '#f2f5f9' })
                 const plan = new THREE.Mesh(PlaneGeometry, MeshLambertMaterial)
                 plan.rotation.x = -0.5 * Math.PI
                 plan.receiveShadow = true
                 this.scene.add(plan)
-                const AmbientLight = new THREE.AmbientLight('#f2f5f9')
+                // 环境光源
+                const AmbientLight = new THREE.AmbientLight('#fff',.5)
+                AmbientLight.receiveShadow = true
                 this.scene.add(AmbientLight)
 
                 // 设置光照
@@ -124,12 +128,19 @@ export const useModelsStore = defineStore({
 
 
                 // 聚光灯
-                const spotLight = new THREE.SpotLight('#ffffff')
-                spotLight.position.set(100, 40, 100)
+                const spotLight = new THREE.SpotLight('#ffffff', 2)
+                spotLight.position.set(50, 50, 50)
+                spotLight.angle = Math.PI / 8
+                spotLight.penumbra = .2
+                spotLight.decay = 2
+
+                spotLight.distance = 30
+                spotLight.shadow.radius = 10
+                
                 spotLight.castShadow = true;
-                spotLight.shadow.mapSize = new THREE.Vector2(1024, 1024)
+                spotLight.shadow.mapSize = new THREE.Vector2(200, 200)
                 spotLight.shadow.camera.far = 130
-                spotLight.shadow.camera.near = 40
+                spotLight.shadow.camera.near = .5
                 this.scene.add(spotLight);
 
                 // 交互

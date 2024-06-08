@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-27 23:30:21
+ * @LastEditTime : 2024-06-08 12:51:18
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -69,6 +69,18 @@ export const menus = [
       icon: "",
     },
     component: () => import("@/views/Map.vue"),
+  },
+  {
+    path: "Animal",
+    name: "Animal",
+    meta: {
+      keepAlive: false,
+      title: "生肖",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Animal.vue"),
   },
   {
     path: "About",
