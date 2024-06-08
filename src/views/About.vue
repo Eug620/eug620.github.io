@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-22 22:25:31
+ * @LastEditTime : 2024-06-09 01:32:03
  * @FilePath     : /eug620.github.io/src/views/About.vue
  * @Description  : filename
  * 
@@ -11,25 +11,12 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 
-const ipInfo = reactive({
-  ip: undefined,
-  info: {}
-})
-fetch('https://api.vvhan.com/api/ipInfo').then(async res => {
-  let result = await res.json()
-  ipInfo.info = result.info
-  ipInfo.ip = result.ip
-})
 
 </script>
 
 <template>
   <div class="text-center  leading-10 py-10">
-        <div v-for="(v, k) in ipInfo.info " :key="k">
-          {{ k }}: {{ v }}
-        </div>
-
-        <div v-if="ipInfo.ip">ip: {{ ipInfo.ip }}</div>
+    About
   </div>
 </template>
 

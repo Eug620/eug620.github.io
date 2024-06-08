@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-23 23:55:00
+ * @LastEditTime : 2024-06-09 01:16:13
  * @FilePath     : /eug620.github.io/src/main.ts
  * @Description  : filename
  * 
@@ -13,6 +13,8 @@ import  './styles/base.css'
 import  './styles/iconfont.css'
 // 引入进度条样式
 import 'nprogress/nprogress.css'
+import  './styles/nprogress.scss'
+
 import App from './App.vue'
 import { useInitRouter } from './router'
 import { pinia } from './store'

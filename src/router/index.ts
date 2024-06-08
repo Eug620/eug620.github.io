@@ -1,3 +1,13 @@
+/*
+ * @Author       : eug yyh3531@163.com
+ * @Date         : 2024-05-22 22:05:28
+ * @LastEditors  : eug yyh3531@163.com
+ * @LastEditTime : 2024-06-09 01:18:22
+ * @FilePath     : /eug620.github.io/src/router/index.ts
+ * @Description  : filename
+ * 
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
+ */
 import {
   createRouter,
   createWebHashHistory,
@@ -7,7 +17,7 @@ import NProgress from "nprogress";
 
 NProgress.configure({
   showSpinner: false,
-  easing: "linear",
+  easing: "ease",
   speed: 1000,
   minimum: 0.2,
   trickle: false,

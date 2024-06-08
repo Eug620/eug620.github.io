@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-08 12:51:18
+ * @LastEditTime : 2024-06-09 00:43:30
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -33,18 +33,6 @@ export const menus = [
       icon: "",
     },
     component: () => import("@/views/Movie.vue"),
-  },
-  {
-    path: "Music",
-    name: "Music",
-    meta: {
-      keepAlive: false,
-      title: "音乐",
-      auth: true,
-      affix: true,
-      icon: "",
-    },
-    component: () => import("@/views/Music.vue"),
   },
   {
     path: "Three",
