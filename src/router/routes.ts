@@ -35,6 +35,18 @@ export const menus = [
     component: () => import("@/views/Movie.vue"),
   },
   {
+    path: "Books",
+    name: "Books",
+    meta: {
+      keepAlive: false,
+      title: "书籍",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Books.vue"),
+  },
+  {
     path: "Three",
     name: "Three",
     meta: {

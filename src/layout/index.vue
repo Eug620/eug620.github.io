@@ -11,7 +11,7 @@
 <template>
   <div class="w-screen	h-screen pt-14">
     <div
-      class="fixed bg-slate-100 overflow-x-scroll overflow-y-hidden z-10 h-14 leading-14 top-0 w-screen shadow-md flex items-center pt-2 justify-center">
+      class="fixed bg-slate-100 overflow-x-auto overflow-y-hidden z-10 h-14 leading-14 top-0 w-screen shadow-md flex items-center pt-2 justify-center">
       <div class="flex-1 min-w-36"></div>
       <div v-for="m in menus" :key="m.path" @click="() => router.push({ name: m.name })"
         class="cursor-pointer border-inherit items-center w-20 min-w-20 text-center"
