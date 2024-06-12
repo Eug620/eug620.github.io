@@ -10,7 +10,7 @@
                     {{ item.chapter }}
                 </div>
             </div>
-            <div class="px-4 h-full relative  flex flex-col" v-show="isShowContent">
+            <div class="px-4 h-full relative  flex flex-col" v-if="isShowContent">
                 <div class="w-full py-1 text-center text-base">
                     <span class="absolute left-4 top-0 py-1 px-2 rounded-lg bg-slate-200 cursor-pointer"
                         @click="isShowContent = false">返回目录</span>
