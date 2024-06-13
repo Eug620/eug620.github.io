@@ -10,7 +10,7 @@
 -->
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
-        <div class="w-full  py-4 flex  w-full max-w-screen-lg gap-2 mx-auto" v-if="isShowCatalogue">
+        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto" v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)" class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
                 book.name }}</div>
         </div>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div v-if="isShowLoading" style="line-height: 50vh;"
-            class="absolute top-0 left-0 bg-slate-500 opacity-50 w-full text-black h-full text-center">加载中</div>
+            class="fixed top-0 left-0 bg-slate-500 opacity-50 w-full text-black h-full text-center">加载中</div>
     </div>
 </template>
 <script setup lang="ts">

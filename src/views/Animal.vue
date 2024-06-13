@@ -19,7 +19,7 @@
         </div>
         <div class="Animal_act">
             <div class="Animal_act-name">{{ imgAry[idx%12].name}}</div>
-            <div>{{ imgAry[idx%12]?.people || '暂无' }}</div>
+            <!-- <div>{{ imgAry[idx%12]?.people || '暂无' }}</div> -->
         </div>
         <img src="" alt="">
     </div>
