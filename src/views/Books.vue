@@ -11,31 +11,41 @@
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
         <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto" v-if="isShowCatalogue">
-            <div v-for="book in books" @click="getChapter(book.path)" class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
-                book.name }}</div>
+            <div v-for="book in books" @click="getChapter(book.path)"
+                class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
+                    book.name }}</div>
         </div>
         <div class="flex-1" v-else>
-            <div class="px-4 w-full max-w-screen-lg mx-auto" v-show="!isShowContent">
+            <div class="px-4 w-full max-w-screen-lg mx-auto" v-if="!isShowContent">
                 <div class="w-full py-2 relative text-center text-xl w-full  max-w-screen-lg mx-auto">
                     <span class="absolute left-0 top-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer"
                         @click="useBack(true)">返回书架</span>
-                    {{ books.find(v=>v.path === active)?.name }}
+                    {{ books.find(v => v.path === active)?.name }}
                 </div>
-                <div v-for="item in compChapter" class="w-full py-2 cursor-pointer"
+                <div v-for="item in compChapter" class="w-full py-2 cursor-pointer" :id="`catalogue${item.catalogue}`"
                     :class="[item.catalogue === activeCatalogue && 'text-rose-400']" :key="item.catalogue"
                     @click="getCatalogue(item.catalogue)">
                     {{ item.chapter }}
                 </div>
             </div>
             <div class="px-4 h-full relative  flex flex-col w-full max-w-screen-lg mx-auto" v-if="isShowContent">
-                <div class="w-full py-1 text-center  text-xl ">
+                <div class="w-full py-1 text-center  text-xl mb-6" id="backCatalogue">
                     <span class="absolute left-4 top-2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
                         @click="useBack()">返回目录</span>
                     {{ content.name }}
                 </div>
                 <div class="flex-1 overflow-y-auto whitespace-pre-wrap pb-6">
                     {{ content.text && content.name && content.text.replace(content.name, '') }}
+                    <div class="relative h-10 mt-4">
+                        <span v-if="activeCatalogue !== compChapter[0].catalogue"
+                            @click="getCatalogue(activeCatalogue - 1, true)"
+                            class="absolute left-0 bottom-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">上一章</span>
+                        <span v-if="activeCatalogue !== compChapter[compChapter.length - 1].catalogue"
+                            @click="getCatalogue(activeCatalogue + 1, true)"
+                            class="absolute right-0 bottom-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">下一章</span>
+                    </div>
                 </div>
+
             </div>
         </div>
         <div v-if="isShowLoading" style="line-height: 50vh;"
@@ -43,14 +53,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watchEffect, nextTick } from 'vue'
 interface Books {
     name: string
     path: string
 }
 const books = ref<Books[]>([])
 const active = ref('')
-const activeCatalogue = ref('')
+const activeCatalogue = ref(-1)
 const bookChapter = new Map()
 interface Content {
     index?: number
@@ -58,11 +68,27 @@ interface Content {
     text?: string
 }
 const content = ref<Content>({})
-
 const isShowContent = ref(false)
 const isShowLoading = ref(false)
 const isShowCatalogue = ref(true)
 const BaseURL = 'https://unpkg.com/e-bookstore@1.0.1'
+onMounted(() => {
+    watchEffect(() => {
+        if (!isShowCatalogue.value) {
+            if (!isShowContent.value) {
+                nextTick(() => {
+                    const doms = document.querySelector(`#catalogue${activeCatalogue.value}`)
+                    doms && doms.scrollIntoView()
+                })
+            } else {
+                nextTick(() => {
+                    const doms = document.querySelector(`#backCatalogue`)
+                    doms && doms.scrollIntoView()
+                })
+            }
+        }
+    })
+})
 fetch(`${BaseURL}/index.json`).then(async res => {
     books.value = await res.json()
 })
@@ -72,10 +98,11 @@ const compChapter = computed(() => {
 })
 
 const getChapter = (path: any) => {
-    isShowCatalogue.value = false
 
-    if (bookChapter.get(path)){
+    if (bookChapter.get(path)) {
         active.value = path
+        isShowCatalogue.value = false
+
         return
     }
     isShowLoading.value = true
@@ -84,11 +111,13 @@ const getChapter = (path: any) => {
         bookChapter.set(path, result)
         active.value = path
     }).finally(() => {
+        isShowCatalogue.value = false
+
         isShowLoading.value = false
     })
 }
 
-const getCatalogue = (catalogue: any) => {
+const getCatalogue = (catalogue: any, flag?: boolean) => {
     isShowCatalogue.value = false
     if (catalogue === activeCatalogue.value) {
         isShowContent.value = true
@@ -100,16 +129,22 @@ const getCatalogue = (catalogue: any) => {
         activeCatalogue.value = catalogue
         isShowContent.value = true
         content.value = result[0]
+        if (flag) {
+            nextTick(() => {
+                const doms = document.querySelector(`#backCatalogue`)
+                doms && doms.scrollIntoView()
+            })
+        }
     }).finally(() => {
         isShowLoading.value = false
     })
 }
 
-const useBack = (falg?:boolean) => {
+const useBack = (falg?: boolean) => {
     isShowContent.value = false
-    if (falg){
+    if (falg) {
         isShowCatalogue.value = true
-        activeCatalogue.value = ''
+        activeCatalogue.value = -1
         content.value = {}
     }
 }
