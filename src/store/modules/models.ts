@@ -98,10 +98,13 @@ export const useModelsStore = defineStore({
                 directionalLight.position.set(10, 0, 10);
                 this.scene.add(directionalLight);
 
-                const light = new THREE.PointLight('#ffffff', .8);
-                light.position.set(50, 50, 50);
+                const light = new THREE.PointLight('#ffffff', 5);
+                light.intensity = 999
+                light.position.set(0, 30, 0);
+                light.visible = true
                 light.castShadow = true;
                 this.scene.add(light);
+                this.scene.add(new THREE.PointLightHelper(light)) // 光源辅助器
 
                 // 地板 - 网格
                 const helper = new THREE.GridHelper(800, 800, '#fff', '#ccc');
