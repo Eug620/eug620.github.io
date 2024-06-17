@@ -71,7 +71,7 @@ const content = ref<Content>({})
 const isShowContent = ref(false)
 const isShowLoading = ref(false)
 const isShowCatalogue = ref(true)
-const BaseURL = 'https://unpkg.com/e-bookstore@1.0.1'
+const BaseURL = 'https://unpkg.com/e-bookstore@1.0.3'
 onMounted(() => {
     watchEffect(() => {
         if (!isShowCatalogue.value) {
