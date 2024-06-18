@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:26:00
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-09 01:02:09
+ * @LastEditTime : 2024-06-19 00:57:10
  * @FilePath     : /eug620.github.io/src/layout/index.vue
  * @Description  : filename
  * 
@@ -19,9 +19,9 @@
       <div class="flex-1 flex text-right	min-w-36 -translate-y-1">
         <div v-if="MusicStore.picUrl" @click="handles"
           class="flex-1 cursor-pointer text-right flex flex-col justify-items-center pr-2 pt-1">
-          <div class="text-xs flex-1 h-full">{{ MusicStore.name }}</div>
-          <div class="text-xs flex-1 h-full">{{ MusicStore.auther }}</div>
-          <div class="text-xs flex-1 h-full">{{ formatSeconds(MusicStore.currentTime) }}/{{
+          <div class="text-xs flex-1 h-full truncate">{{ MusicStore.name }}</div>
+          <div class="text-xs flex-1 h-full truncate">{{ MusicStore.auther }}</div>
+          <div class="text-xs flex-1 h-full truncate">{{ formatSeconds(MusicStore.currentTime) }}/{{
             formatSeconds(MusicStore.duration) }}
           </div>
         </div>

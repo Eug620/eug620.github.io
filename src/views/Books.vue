@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-06-12 19:43:59
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-12 23:10:56
+ * @LastEditTime : 2024-06-19 01:11:40
  * @FilePath     : /eug620.github.io/src/views/Books.vue
  * @Description  : filename
  * 
@@ -10,10 +10,11 @@
 -->
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
-        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto animate__animated animate__fadeIn" v-if="isShowCatalogue">
+        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto animate__animated animate__fadeIn"
+            v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
                 class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
-                    book.name }}</div>
+                book.name }}</div>
         </div>
         <div class="flex-1 animate__animated animate__fadeIn" v-else>
             <div class="px-4 w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="!isShowContent">
@@ -28,10 +29,10 @@
                     {{ item.chapter }}
                 </div>
             </div>
-            <div class="px-4 h-full relative  flex flex-col w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="isShowContent">
+            <div class="px-4 h-full relative  flex flex-col w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn"
+                v-if="isShowContent">
                 <div class="w-full py-1 text-center  text-xl mb-6" id="backCatalogue">
-                    <span class="absolute left-4 top-2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
-                        @click="useBack()">返回目录</span>
+
                     {{ content.name }}
                 </div>
                 <div class="flex-1 overflow-y-auto whitespace-pre-wrap pb-6">
@@ -39,21 +40,27 @@
                     <div class="relative h-10 mt-4">
                         <span v-if="activeCatalogue !== compChapter[0].catalogue"
                             @click="getCatalogue(activeCatalogue - 1, true)"
-                            class="absolute left-0 bottom-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">上一章</span>
+                            class="absolute left-0  top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">上一章</span>
+                        <span
+                            class="absolute -translate-x-1/2 -translate-y-1/2 	 left-1/2 top-1/2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
+                            @click="useBack()">返回目录</span>
                         <span v-if="activeCatalogue !== compChapter[compChapter.length - 1].catalogue"
                             @click="getCatalogue(activeCatalogue + 1, true)"
-                            class="absolute right-0 bottom-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">下一章</span>
+                            class="absolute right-0 top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">下一章</span>
                     </div>
                 </div>
 
             </div>
         </div>
         <div v-if="isShowLoading" style="line-height: 50vh;"
-            class="fixed top-0 left-0 bg-slate-100 w-full text-black h-full text-center animate__animated animate__fadeIn  opacity-50">加载中</div>
+            class="fixed top-0 left-0 bg-slate-100 w-full text-black h-full text-center animate__animated animate__fadeIn  opacity-50">
+            加载中</div>
     </div>
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, watchEffect, nextTick } from 'vue'
+import { useDBStore } from '@/store/modules/database'
+const db = useDBStore()
 interface Books {
     name: string
     path: string
@@ -88,6 +95,7 @@ onMounted(() => {
             }
         }
     })
+
 })
 fetch(`${BaseURL}/index.json`).then(async res => {
     books.value = await res.json()
@@ -98,6 +106,13 @@ const compChapter = computed(() => {
 })
 
 const getChapter = (path: any) => {
+    if (db.get({ path })) {
+        bookChapter.set(path, db.get({ path }))
+        activeCatalogue.value = db.get({ path, user: true })
+        active.value = path
+        isShowCatalogue.value = false
+        return
+    }
 
     if (bookChapter.get(path)) {
         active.value = path
@@ -109,26 +124,28 @@ const getChapter = (path: any) => {
     fetch(`${BaseURL}/${path}/index.json`).then(async res => {
         const result = await res.json()
         bookChapter.set(path, result)
+        db.set({ path, value: result })
+        db.set({ path, value: 0, user: true })
         active.value = path
     }).finally(() => {
         isShowCatalogue.value = false
-
         isShowLoading.value = false
     })
 }
 
 const getCatalogue = (catalogue: any, flag?: boolean) => {
     isShowCatalogue.value = false
-    if (catalogue === activeCatalogue.value) {
-        isShowContent.value = true
-        return
-    }
+    // if (catalogue === activeCatalogue.value) {
+    //     isShowContent.value = true
+    //     return
+    // }
     isShowLoading.value = true
     fetch(`${BaseURL}/${active.value}/${catalogue}.json`).then(async res => {
         const result = await res.json()
         activeCatalogue.value = catalogue
         isShowContent.value = true
         content.value = result[0]
+        db.set({ path: active.value, value: catalogue, user: true })
         if (flag) {
             nextTick(() => {
                 const doms = document.querySelector(`#backCatalogue`)

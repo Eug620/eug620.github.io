@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-09 00:43:30
+ * @LastEditTime : 2024-06-19 00:08:26
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -21,18 +21,6 @@ export const menus = [
       icon: "",
     },
     component: () => import("@/views/Principal.vue"),
-  },
-  {
-    path: "Movie",
-    name: "Movie",
-    meta: {
-      keepAlive: true,
-      title: "影视",
-      auth: true,
-      affix: true,
-      icon: "",
-    },
-    component: () => import("@/views/Movie.vue"),
   },
   {
     path: "Books",
@@ -70,6 +58,20 @@ export const menus = [
     },
     component: () => import("@/views/Map.vue"),
   },
+]
+export const information = [
+  {
+    path: "Movie",
+    name: "Movie",
+    meta: {
+      keepAlive: true,
+      title: "影视",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Movie.vue"),
+  },
   {
     path: "Animal",
     name: "Animal",
@@ -94,14 +96,14 @@ export const menus = [
     },
     component: () => import("@/views/About.vue"),
   },
-
 ]
+
 export default [
   {
     path: "/",
     redirect: "Principal",
     component: () => import("@/layout/index.vue"),
-    children: menus,
+    children: [...menus, ...information],
   },
   {
     path: "/:pathMatch(.*)*",

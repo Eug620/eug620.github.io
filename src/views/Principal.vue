@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-23 22:11:00
+ * @LastEditTime : 2024-06-19 01:17:27
  * @FilePath     : /eug620.github.io/src/views/Principal.vue
  * @Description  : filename
  * 
@@ -38,7 +38,7 @@ fetch('https://api.vvhan.com/api/text/love?type=json').then(async res => {
 </script>
 <template>
   <div class="text-center h-full items-center flex ">
-    <h2 class="text-center w-full">{{ content }}</h2>
+    <h2 class="text-center max-w-screen-lg mx-auto leading-8 px-10">{{ content }}</h2>
   </div>
 </template>
 
