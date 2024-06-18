@@ -12,10 +12,25 @@
 // import { useModelsStore } from '@/store/modules/models'
 // const modelsStore = useModelsStore()
 // modelsStore.initModels()
+
+//判断系统类型
+function OSnow() {
+  var agent = navigator.userAgent.toLowerCase();
+  var isMac = /macintosh|mac os x/i.test(navigator.userAgent);
+  if (agent.indexOf("win32") >= 0 || agent.indexOf("wow32") >= 0) {
+    import('./styles/win.css')
+  }
+  if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+    import('./styles/win.css')
+  }
+  if (isMac) {
+  }
+}
+OSnow();
 </script>
 
 <template>
   <router-view></router-view>
 </template>
 
-<style scoped></style>
+<style></style>

@@ -14,7 +14,7 @@ export const menus = [
     path: "Principal",
     name: "Principal",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "首页",
       auth: true,
       affix: true,
@@ -26,7 +26,7 @@ export const menus = [
     path: "Movie",
     name: "Movie",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "影视",
       auth: true,
       affix: true,
@@ -38,7 +38,7 @@ export const menus = [
     path: "Books",
     name: "Books",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "书籍",
       auth: true,
       affix: true,
@@ -50,7 +50,7 @@ export const menus = [
     path: "Three",
     name: "Three",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "绘制",
       auth: true,
       affix: true,
@@ -62,7 +62,7 @@ export const menus = [
     path: "Map",
     name: "Map",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "地图",
       auth: true,
       affix: true,
@@ -74,7 +74,7 @@ export const menus = [
     path: "Animal",
     name: "Animal",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "生肖",
       auth: true,
       affix: true,
@@ -86,7 +86,7 @@ export const menus = [
     path: "About",
     name: "About",
     meta: {
-      keepAlive: false,
+      keepAlive: true,
       title: "关于",
       auth: true,
       affix: true,

@@ -10,13 +10,13 @@
 -->
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
-        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto" v-if="isShowCatalogue">
+        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto animate__animated animate__fadeIn" v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
                 class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
                     book.name }}</div>
         </div>
-        <div class="flex-1" v-else>
-            <div class="px-4 w-full max-w-screen-lg mx-auto" v-if="!isShowContent">
+        <div class="flex-1 animate__animated animate__fadeIn" v-else>
+            <div class="px-4 w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="!isShowContent">
                 <div class="w-full py-2 relative text-center text-xl w-full  max-w-screen-lg mx-auto">
                     <span class="absolute left-0 top-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer"
                         @click="useBack(true)">返回书架</span>
@@ -28,7 +28,7 @@
                     {{ item.chapter }}
                 </div>
             </div>
-            <div class="px-4 h-full relative  flex flex-col w-full max-w-screen-lg mx-auto" v-if="isShowContent">
+            <div class="px-4 h-full relative  flex flex-col w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="isShowContent">
                 <div class="w-full py-1 text-center  text-xl mb-6" id="backCatalogue">
                     <span class="absolute left-4 top-2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
                         @click="useBack()">返回目录</span>
@@ -49,7 +49,7 @@
             </div>
         </div>
         <div v-if="isShowLoading" style="line-height: 50vh;"
-            class="fixed top-0 left-0 bg-slate-500 opacity-50 w-full text-black h-full text-center">加载中</div>
+            class="fixed top-0 left-0 bg-slate-100 w-full text-black h-full text-center animate__animated animate__fadeIn  opacity-50">加载中</div>
     </div>
 </template>
 <script setup lang="ts">

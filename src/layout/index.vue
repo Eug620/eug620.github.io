@@ -18,20 +18,30 @@
         :class="{ 'underline underline-offset-8': route.name === m.name }">{{ m.meta.title }}</div>
       <div class="flex-1 flex text-right	min-w-36 -translate-y-1">
         <div v-if="MusicStore.picUrl" @click="handles"
-          class="flex-1 cursor-pointer text-right flex flex-col justify-items-center pr-2">
-          <div class=" flex-1 h-full">{{ MusicStore.name }}</div>
+          class="flex-1 cursor-pointer text-right flex flex-col justify-items-center pr-2 pt-1">
+          <div class="text-xs flex-1 h-full">{{ MusicStore.name }}</div>
           <div class="text-xs flex-1 h-full">{{ MusicStore.auther }}</div>
-          <div class="text-xs flex-1 h-full">{{ formatSeconds(MusicStore.currentTime) }}/{{ formatSeconds(MusicStore.duration) }}
+          <div class="text-xs flex-1 h-full">{{ formatSeconds(MusicStore.currentTime) }}/{{
+            formatSeconds(MusicStore.duration) }}
           </div>
         </div>
         <img @click="MusicStore.useGetMusic" :src="MusicStore.picUrl" class="h-full w-14  cursor-pointer"
           v-if="MusicStore.picUrl" alt="下一首">
-       
+
       </div>
 
     </div>
     <div class="h-full overflow-y-auto overflow-x-hidden">
-      <router-view />
+      <router-view v-slot="{ Component, route }">
+        <component :is="Component" :key="route.fullPath" class="animate__animated animate__fadeIn"
+          v-if="!route.meta.keepAlive" />
+
+        <keep-alive>
+          <component :is="Component" :key="route.fullPath" class="animate__animated animate__fadeIn"
+            v-if="route.meta.keepAlive" />
+        </keep-alive>
+      </router-view>
+
     </div>
     <div class="video-container w-0 h-0 fixed -bottom-1 -left-1">
       <audio autoplay @loadedmetadata="MusicStore.timeupdate" @timeupdate="MusicStore.timeupdate" controls
