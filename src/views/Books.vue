@@ -14,7 +14,7 @@
             v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
                 class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
-                book.name }}</div>
+                    book.name }}</div>
         </div>
         <div class="flex-1 animate__animated animate__fadeIn" v-else>
             <div class="px-4 w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="!isShowContent">
@@ -107,6 +107,7 @@ const compChapter = computed(() => {
 
 const getChapter = async (path: any) => {
     if (bookChapter.get(path)) {
+        activeCatalogue.value = db.get({ path: `Books.${path}` })
         active.value = path
         isShowCatalogue.value = false
         return
@@ -114,8 +115,8 @@ const getChapter = async (path: any) => {
 
     const dbDatas = await db.books.getItem(path)
     if (dbDatas) {
-        bookChapter.set(path,dbDatas)
-        activeCatalogue.value = db.get({ path, user: true })
+        bookChapter.set(path, dbDatas)
+        activeCatalogue.value = db.get({ path: `Books.${path}` })
         active.value = path
         isShowCatalogue.value = false
         return
@@ -128,7 +129,7 @@ const getChapter = async (path: any) => {
         // db.set({ path, value: result })
         // indexDB.add(path, result)
         await db.books.setItem(path, result)
-        db.set({ path, value: 0, user: true })
+        db.set({ path: `Books.${path}`, value: 0 })
         active.value = path
     }).finally(() => {
         isShowCatalogue.value = false
@@ -148,7 +149,7 @@ const getCatalogue = (catalogue: any, flag?: boolean) => {
         activeCatalogue.value = catalogue
         isShowContent.value = true
         content.value = result[0]
-        db.set({ path: active.value, value: catalogue, user: true })
+        db.set({ path: `Books.${active.value}`, value: catalogue })
         if (flag) {
             nextTick(() => {
                 const doms = document.querySelector(`#backCatalogue`)

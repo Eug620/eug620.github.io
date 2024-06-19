@@ -36,7 +36,7 @@ export const useInitRouter = (app: any) => {
     console.log("[Router]:beforeEach", to.name, from.name);
 
     if (to.meta.title) {
-      document.title = `Eug~${to.meta.title}`;
+      document.title = `${to.meta.title}`;
     } else {
       document.title = "Eug";
     }
