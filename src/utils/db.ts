@@ -1,4 +1,6 @@
-import { LowSync, LocalStorage } from 'lowdb'
+import { LowSync } from 'lowdb'
+import { LocalStorage } from 'lowdb/browser'
+
 import lodash, { cloneDeep } from 'lodash'
 
 export interface DatabaseParsm {
@@ -19,13 +21,11 @@ class LowWithLodash<T> extends LowSync<T> {
     chain: lodash.ExpChain<this['data']> = lodash.chain(this).get('data')
 }
 const adapter = new LocalStorage<Data>('EUG620')
-const db = new LowWithLodash(adapter)
-
-// 已有配置
-db.data = {
+const db = new LowWithLodash(adapter,{
     system: {},
     database: {}
-}
+})
+
 const BaseData:string | null = localStorage.getItem('EUG620')
 if (BaseData !== null) {
     db.data= JSON.parse(BaseData)
