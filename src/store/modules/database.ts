@@ -14,6 +14,14 @@ export const useDBStore = defineStore({
             // size        : 4980736, // Size of database, in bytes. WebSQL-only for now.
             storeName   : 'books', // Should be alphanumeric, with underscores.
             description : '书籍信息存储'
+        }),
+        music: localforage.createInstance({
+            driver      : localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
+            name        : location.hostname,
+            version     : 1.0,
+            // size        : 4980736, // Size of database, in bytes. WebSQL-only for now.
+            storeName   : 'music', // Should be alphanumeric, with underscores.
+            description : '音乐信息存储'
         })
     }),
     actions: {
