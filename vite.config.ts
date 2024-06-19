@@ -40,6 +40,8 @@ export default defineConfig({
         // 拆分js
         manualChunks: {
           three: ["three"],
+          lowdb: ["lowdb"],
+          lodash: ["lodash"],
         },
       },
     },
