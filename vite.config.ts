@@ -42,6 +42,7 @@ export default defineConfig({
           three: ["three"],
           lowdb: ["lowdb"],
           lodash: ["lodash"],
+          localforage: ["localforage"],
         },
       },
     },

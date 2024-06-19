@@ -105,26 +105,29 @@ const compChapter = computed(() => {
     return bookChapter.get(active.value)
 })
 
-const getChapter = (path: any) => {
-    if (db.get({ path })) {
-        bookChapter.set(path, db.get({ path }))
+const getChapter = async (path: any) => {
+    if (bookChapter.get(path)) {
+        active.value = path
+        isShowCatalogue.value = false
+        return
+    }
+
+    const dbDatas = await db.books.getItem(path)
+    if (dbDatas) {
+        bookChapter.set(path,dbDatas)
         activeCatalogue.value = db.get({ path, user: true })
         active.value = path
         isShowCatalogue.value = false
         return
     }
 
-    if (bookChapter.get(path)) {
-        active.value = path
-        isShowCatalogue.value = false
-
-        return
-    }
     isShowLoading.value = true
     fetch(`${BaseURL}/${path}/index.json`).then(async res => {
         const result = await res.json()
         bookChapter.set(path, result)
-        db.set({ path, value: result })
+        // db.set({ path, value: result })
+        // indexDB.add(path, result)
+        await db.books.setItem(path, result)
         db.set({ path, value: 0, user: true })
         active.value = path
     }).finally(() => {

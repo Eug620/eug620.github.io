@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "localforage": "^1.10.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "three": "^0.164.1",

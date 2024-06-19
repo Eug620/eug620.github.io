@@ -1,10 +1,21 @@
 import { defineStore } from 'pinia';
+import localforage from 'localforage'
 import { dbSet, dbGet, database as getDatabase, DatabaseParsm } from '@/utils/db'
 import { useRoute } from 'vue-router'
 import { cloneDeep } from 'lodash'
 
 export const useDBStore = defineStore({
     id: 'db',
+    state:() => ({
+        books: localforage.createInstance({
+            driver      : localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
+            name        : location.hostname,
+            version     : 1.0,
+            // size        : 4980736, // Size of database, in bytes. WebSQL-only for now.
+            storeName   : 'books', // Should be alphanumeric, with underscores.
+            description : '书籍信息存储'
+        })
+    }),
     actions: {
         /**
          * @description 将数据存储到指定位置 | 路径不存在会自动初始化
