@@ -97,6 +97,18 @@ export const information = [
     component: () => import("@/views/Animal.vue"),
   },
   {
+    path: "Secrecy",
+    name: "Secrecy",
+    meta: {
+      keepAlive: true,
+      title: "加密",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Secrecy.vue"),
+  },
+  {
     path: "About",
     name: "About",
     meta: {

@@ -11,6 +11,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import Footers from '@/components/Footers.vue'
 // import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.1';
 // console.log(pipeline);
 
@@ -37,8 +38,9 @@ fetch('https://api.vvhan.com/api/text/love?type=json').then(async res => {
 
 </script>
 <template>
-  <div class="text-center h-full items-center flex ">
-    <h2 class="text-center max-w-screen-lg mx-auto leading-8 px-10">{{ content }}</h2>
+  <div class="text-center h-full items-center flex flex-col">
+    <div class="text-center max-w-screen-lg mx-auto flex-1 h-full px-10 content-center " >{{ content }}</div>
+    <Footers class="max-w-screen-lg mx-auto my-4"/>
   </div>
 </template>
 
