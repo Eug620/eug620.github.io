@@ -4,10 +4,16 @@
         <div class="flex flex-col gap-3">
             <input type="text" v-model="dbTitle" placeholder="请输入标题" :disabled="status">
             <input type="text" v-model="dbPassworld" placeholder="请输入访问密码">
-            <textarea v-model="dbContent" rows="6" placeholder="请输入存储内容" :disabled="status" />
-            <button @click="useSubmit" class="px-6 py-2 mx-auto rounded-lg  bg-slate-200 "
+            <textarea v-model="dbContent" rows="6" :placeholder="status ? '解析可查看存储内容' :'请输入存储内容'" :disabled="status" />
+            <div class="text-center ">
+                <button @click="useSubmit" class="px-6 py-2  rounded-lg  bg-slate-200 "
                 :class="[(!dbTitle || !dbPassworld || !dbContent) && !status ? 'cursor-not-allowed' : 'cursor-pointer']"
                 :disabled="(!dbTitle || !dbPassworld || !dbContent) && !status">{{ status ? '解析' : '存储' }}</button>
+                <button @click="useCancel" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 cursor-pointer"
+                v-if="status"
+                >取消</button>
+            </div>
+           
         </div>
 
         <div class="gap-2 flex flex-col my-2 cursor-pointer">
@@ -59,6 +65,13 @@ const useGetContent = (s: string) => {
     dbPassworld.value = ''
     dbContent.value = ''
     status.value = true
+}
+
+const useCancel = () => {
+    status.value = false
+    dbTitle.value = ''
+    dbPassworld.value = ''
+    dbContent.value = ''
 }
 </script>
 <style>
