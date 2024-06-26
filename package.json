@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "crypto-js": "^4.2.0",
+    "dayjs": "^1.11.11",
     "localforage": "^1.10.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "three": "^0.164.1",
+    "uuid": "^10.0.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.2"
   },
@@ -24,6 +26,7 @@
     "@types/node": "^20.12.12",
     "@types/nprogress": "^0.2.3",
     "@types/three": "^0.164.1",
+    "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^5.0.4",
     "autoprefixer": "^10.4.19",
     "lodash": "^4.17.21",
