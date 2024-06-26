@@ -44,7 +44,7 @@ const newData = ref(false)
 const useGetSecrecy = async () => {
     try {
         const keys = await db.secrecy.keys()
-        secrecy.value = await Promise.all(keys.map((id) => {
+        secrecy.value = await Promise.all(keys.map((id: string) => {
             return db.secrecy.getItem(id)
         }))
     } catch (_) {
