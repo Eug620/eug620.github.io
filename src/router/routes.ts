@@ -73,6 +73,18 @@ export const menus = [
 ]
 export const information = [
   {
+    path: "LOL",
+    name: "LOL",
+    meta: {
+      keepAlive: true,
+      title: "LOL",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/LOL.vue"),
+  },
+  {
     path: "Movie",
     name: "Movie",
     meta: {
