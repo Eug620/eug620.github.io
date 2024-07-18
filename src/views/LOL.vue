@@ -6,98 +6,43 @@
             </div>
             <div class="flex my-2 gap-2">
                 <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
-                    :class="{ 'bg-teal-200': activeTab === tabs.hero }" @click="activeTab = tabs.hero">英雄</div>
+                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.hero }" @click="activeTab = tabs.hero">英雄</div>
                 <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
-                    :class="{ 'bg-teal-200': activeTab === tabs.equip }" @click="activeTab = tabs.equip">装备</div>
+                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.equip }" @click="activeTab = tabs.equip">装备</div>
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
+                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.regions }" @click="activeTab = tabs.regions">地区</div>
             </div>
 
-            <div v-if="activeTab === tabs.hero" :class="{ 'grid gap-4 grid-cols-3': !isShowDetails }">
-                <template v-if="!isShowDetails">
-                    <div v-for="hero in heroList.hero" :key="hero.heroId"
-                        class="bg-slate-200 p-3 flex rounded-lg  cursor-pointer relative" @click="useHeroDetails(hero)">
-                        <img :src="`//game.gtimg.cn/images/lol/act/img/skinloading/${hero.instance_id}.jpg`"
-                            class="h-24     mr-2" alt="">
-
-                        <div class="flex-1">
-                            <span>{{ hero.name }}</span>
-                            <span class="text-xs pl-3">{{ hero.title }}</span>
-                            <span class="text-xs pl-3">{{ hero.alias }}</span>
-                            <div class="text-xs mt-2">
-                                定位：<span v-for=" roles in hero.roles " class="mr-2" :key="roles">{{ rolesType[roles]
-                                    }}</span>
-                            </div>
-                            <div class="text-xs mt-1">
-                                价格：{{ hero.goldPrice }} / {{ hero.couponPrice }}
-                            </div>
-                            <div class="text-xs mt-1">
-                                <span class="mr-4">攻击：{{ hero.attack }}</span>
-                                <span class="mr-4">防御：{{ hero.defense }}</span>
-                                <span class="mr-4">魔法：{{ hero.magic }}</span>
-                                <span class="mr-4">难度：{{ hero.difficulty }}</span>
-                            </div>
-                            <div v-if="hero.isWeekFree === '1'">周免</div>
-                        </div>
-
-                        <span
-                            :class="[hero.changeLabel === '改动英雄' && 'text-red-500', 'absolute text-xs top-1 right-1']">{{
-                                hero.changeLabel }}</span>
-                    </div>
-                </template>
+            <div v-if="activeTab === tabs.hero">
+                <input v-if="!isShowDetails" v-model="searchHero"
+                    class="outline-none mb-2 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400"
+                    placeholder="请输入英雄名称">
+                <div v-if="!isShowDetails" class="grid gap-4 md:grid-cols-3 grid-cols-1">
+                    <Heros v-for="hero in renderHeroList" :hero="hero" :key="hero.heroId" @click="useHeroDetails(hero)"/>
+                </div>
                 <div v-else>
                     <div>
-                        <div class="flex my-2 items-center">
-                            <img :src="heroDetails.spells?.passive?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg"
-                                alt="">
-                            <div>
-                                <div>{{ heroDetails.spells?.passive?.name }}</div>
-                                <div class="text-xs">{{ heroDetails.spells?.passive?.description }}</div>
-                            </div>
-                        </div>
-                        <div class="flex my-2 items-center">
-                            <img :src="heroDetails.spells?.q?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg" alt="">
-                            <div>
-                                <div>Q：{{ heroDetails.spells?.q?.name }} - <span class="text-xs">{{
-                                    heroDetails.spells?.q?.costburn
-                                        }}</span></div>
-                                <div class="text-xs">{{ heroDetails.spells?.q?.description }}</div>
-                            </div>
-
-                        </div>
-                        <div class="flex my-2 items-center">
-                            <img :src="heroDetails.spells?.w?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg" alt="">
-                            <div>
-                                <div>W：{{ heroDetails.spells?.w?.name }} - <span class="text-xs">{{
-                                    heroDetails.spells?.w?.costburn
-                                        }}</span></div>
-                                <div class="text-xs">{{ heroDetails.spells?.w?.description }}</div>
-                            </div>
-
-                        </div>
-                        <div class="flex my-2 items-center">
-                            <img :src="heroDetails.spells?.e?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg" alt="">
-                            <div>
-                                <div>E：{{ heroDetails.spells?.e?.name }} - <span class="text-xs">{{
-                                    heroDetails.spells?.e?.costburn
-                                        }}</span></div>
-                                <div class="text-xs">{{ heroDetails.spells?.e?.description }}</div>
-                            </div>
-
-                        </div>
-                        <div class="flex my-2 items-center">
-                            <img :src="heroDetails.spells?.r?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg" alt="">
-                            <div>
-                                <div>R：{{ heroDetails.spells?.r?.name }} - <span class="text-xs">{{
-                                    heroDetails.spells?.r?.costburn
-                                        }}</span></div>
-                                <div class="text-xs">{{ heroDetails.spells?.r?.description }}</div>
-                            </div>
-
-                        </div>
+                        <div class="text-center my-8 mb-4 text-4xl font-bold">{{ heroDetails?.hero?.name }}</div>
+                        <div class="text-center mb-3 ">{{ heroDetails?.hero?.title  }}</div>
+                        <div class="text-center mb-3 text-xl">{{ champions.champion?.biography?.quote }}</div>
+                        <Titles title="来自"/>
+                        <div class="indent-4 text-sm px-4">{{ useFindRegion(champions.champion?.['associated-faction-slug']) }}</div>
+                        <Titles title="简介"/>
+                        <div class="indent-4  text-sm px-4" v-html="champions.champion?.biography?.short"></div>
+                        <Titles title="传记"/>
+                        <div class="indent-4 text-sm px-4" v-html="champions.champion?.biography?.full"></div>
                     </div>
+                    <div>
+                        <Titles title="技能"/>
+                        <Spells :spells="heroDetails.spells?.passive"/>
+                        <Spells :spells="heroDetails.spells?.q" pre="Q"/>
+                        <Spells :spells="heroDetails.spells?.w" pre="W"/>
+                        <Spells :spells="heroDetails.spells?.e" pre="E"/>
+                        <Spells :spells="heroDetails.spells?.r" pre="R"/>
+                    </div>
+                    <Titles title="皮肤"/>
                     <div @click="useSkinClick"
-                        class="my-3  overflow-hidden rounded-lg cursor-pointer text-white relative" :style="{
-                            // backgroundImage:   `url(${skin.mainImg})`
-                        }">
+                        class="my-3 overflow-hidden rounded-lg cursor-pointer text-white relative" >
                         <img :src="skin.mainImg" alt="" class="w-full" />
                         <div class="absolute w-1/2 h-full top-4 left-4">
                             <img :src="skin.iconImg" class="w-12 mb-1 rounded-full" alt="">
@@ -113,88 +58,58 @@
                 </div>
 
             </div>
-            <div v-if="activeTab === tabs.equip" class="grid gap-4 grid-cols-5">
-                <div v-for="equip in equipList.items" :key="equip.itemId" class="flex bg-slate-200 rounded-lg p-2"
-                    @click="useEquipClick(equip)">
-                    <img :src="equip.iconPath" class="w-10 h-10" alt="">
-                    <div class="ml-2">
-                        <div>{{ equip.name }}</div>
-                        <div class="text-xs">合成：{{ equip.price }}</div>
-                        <div class="text-xs">出售：{{ equip.sell }}</div>
-                        <div class="text-xs">总价：{{ equip.total }}</div>
+            <div v-if="activeTab === tabs.equip">
+                    <div v-if="activeEquip">
+                        <Equip :equip="activeEquip"/>
+                        <Titles title="模式"/>
+                        <div class="indent-4  text-sm px-4" >{{ activeEquip.maps.join(' ') }}</div>
+                        <Titles title="装备效果"/>
+                        <div class="indent-4  text-sm px-4" >{{ activeEquip.description.replace(/<br>/g, "\n        ").split('\n        ').filter(v => v).join('\n        ').replace(/<[^>]+>/g, "") }}</div>
+                        <Titles v-if="activeEquip.from.length"  title="合成路线"/>
+                        <div v-if="activeEquip.from.length" class="pl-4  text-sm px-4" >
+                            <Equip v-for="equip in filterEquipList(activeEquip.from)" :key="equip.itemId" class="mb-2" :equip="equip"/>
+                        </div>
+                        <Titles v-if="activeEquip.into.length"  title="可以合成"/>
+                        <div v-if="activeEquip.into.length" class="pl-4 text-sm px-4" >
+                            <Equip v-for="equip in filterEquipList(activeEquip.into)" :key="equip.itemId" class="mb-2" :equip="equip"/>
+                        </div>
+                        <span @click="activeEquip = null"
+                        class="fixed bottom-10 right-10 px-10 py-3 cursor-pointer bg-slate-200 hover:bg-slate-400 hover:text-white rounded-lg mx-auto">返回</span>
+                    </div>
+                    <template  v-else >
+                        <input v-model="searchEquip"
+                            class="outline-none mb-2 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400"
+                            placeholder="请输入装备名称">
+                        <div class="grid gap-4 md:grid-cols-4 grid-cols-2">
+                            <Equip v-for="equip in renderEquipList" :key="equip.itemId"  @click="useEquipClick(equip)" :equip="equip"/>
+                        </div>
+                    </template>
+            </div>
+            <div v-if="activeTab === tabs.regions">
+                <div :style="{
+                    backgroundImage: `url(${region?.background?.uri})`,
+                }" v-for="region in regions.factions" :key="region.slug"
+                    class="h-96  overflow-hidden object-center bg-cover object-cover text-slate-300 hover:text-slate-100  rounded-lg  cursor-pointer relative mb-2">
+                    <div class="p-3 h-full" style="background-color: rgba(0, 0, 0, .3);">
+                        <Titles  :title="region?.name"/>
+                        <div class="indent-4 text-sm px-4" v-html="region?.factions?.faction?.overview?.short">
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive, ref, computed } from "vue";
-type Roles = 'mage' | 'support' | 'fighter' | 'tank' | 'assassin' | 'marksman'
-interface Hero {
-    instance_id: string
-    heroId: string
-    name: string
-    title: string
-    alias: string
-    roles: Roles[]
-    goldPrice: string
-    couponPrice: string
-    attack: string
-    defense: string
-    magic: string
-    difficulty: string
-    isWeekFree: string
-    changeLabel: string
-}
-interface Items {
-    description: string
-    from: string[]
-    iconPath: string
-    into: string[]//
-    itemId: string
-    keywords: string
-    maps: string[]
-    name: string
-    plaintext: string
-    price: string
-    sell: string
-    suitHeroId: string
-    tag: string
-    total: string
-    types: string[]
+import Titles from '@/components/Titles.vue'
+import Equip from '@/components/Equip.vue'
+import Spells from '@/components/Spells.vue'
+import Heros from '@/components/Hero.vue'
+import {HeroTypes,EquipTypes, Items, Hero, HeroDetails, tabs} from '@/types/LOL'
 
-}
 
-interface HeroTypes {
-    fileName: string
-    fileTime: string
-    hero: Hero[]
-    version: string
-}
-interface EquipTypes {
-    fileName: string
-    fileTime: string
-    items: Items[]
-    tree: any[],
-    version: string
-}
-interface Skin {
-    chromas?: string
-    mainImg: string
-    iconImg: string
-    name: string
-    description: string
-}
-interface HeroDetails extends HeroTypes {
-    skins: Skin[],
-    hero: Hero | any,
-    spells: any,
-}
 const heroList = reactive<HeroTypes>({
     fileName: '',
     fileTime: '',
@@ -211,6 +126,23 @@ const equipList = reactive<EquipTypes>({
 const equipMaps = new Map<string, Items>()
 
 const isShowDetails = ref(false)
+const searchHero = ref('')
+const searchEquip = ref('')
+const renderHeroList = computed(() => {
+    return (heroList.hero as Hero[]).filter(({ name, alias, title }) => {
+        return name.includes(searchHero.value) || alias.includes(searchHero.value) || title.includes(searchHero.value)
+    })
+})
+const renderEquipList = computed(() => {
+    return (equipList.items as Items[]).filter(({ name }) => {
+        return name.includes(searchEquip.value)
+    })
+})
+const filterEquipList = (ary: string[]) => {
+    return (equipList.items as Items[]).filter(({ itemId }) => {
+        return ary.includes(itemId)
+    })
+}
 const heroDetails = reactive<HeroDetails>({
     fileName: '',
     fileTime: '',
@@ -219,18 +151,17 @@ const heroDetails = reactive<HeroDetails>({
     spells: {},
     version: ''
 })
-enum rolesType {
-    mage = '法师',
-    support = '辅助',
-    fighter = '战士',
-    tank = '坦克',
-    assassin = '刺客',
-    marksman = '射手',
-}
-enum tabs {
-    hero = 'hero',
-    equip = 'equip'
-}
+const champions = reactive<any>({
+    champion: {},
+    ['explore-champions']: [],
+    id: '',
+    locale: '',
+    modules: [],
+    name: '',
+    ['related-champions']: [],
+    title: ''
+})
+
 const activeTab = ref<tabs>(tabs.hero)
 const comSkins = computed(() => {
     return heroDetails.skins.filter(v => v?.chromas == '0')
@@ -272,6 +203,7 @@ const useGetEquipList = () => {
 }
 useGetEquipList()
 const useHeroDetails = (hero: Hero) => {
+    champions.champion = {}
     currentIdx.value = 0
     fetch(`https://game.gtimg.cn/images/lol/act/img/js/hero/${hero.heroId}.js`).then(async res => {
         const { fileName, fileTime, hero, version, skins, spells } = await res.json()
@@ -286,20 +218,51 @@ const useHeroDetails = (hero: Hero) => {
         });
 
     })
+    fetch(`https://yz.lol.qq.com/v1/zh_cn/champions/${hero.alias.toLowerCase()}/index.json`).then(async res => {
+        const data = await res.json()
+        champions.champion = data.champion
+        // https://yz.lol.qq.com/v1/zh_cn/story/annie-color-story/index.json 传记
+    })
 }
 
+const activeEquip = ref<Items| null>(null)
 const useEquipClick = (equip: Items) => {
-    console.log(equip.description);
-    let description = equip.description.replace(/<br>/g, "\n            ")
-
-    alert(`
-模式：${equip.maps.join(' ')}\n
-装备效果：
-            ${description.replace(/<[^>]+>/g, "")}\n
-合成路线：${equip.from.map(v => equipMaps.get(v)?.name)}\n
-可合成：${equip.into.map(v => equipMaps.get(v)?.name)}\n
-    `)
+    // console.log(equip);
+    
+    if (activeEquip.value?.itemId === equip.itemId) {
+        activeEquip.value = null
+    } else {
+        activeEquip.value = equip
+    }
 }
+
+
+/**
+ * 大陆板块
+ * https://yz.lol.qq.com/v1/zh_cn/search/index.json
+ */
+const regions = reactive<any>({
+    factions: []
+})
+const useFindRegion = (region: string) => {
+    return regions.factions.find((v: any) => v.slug === region)?.name || region
+}
+const useGetRegions = () => {
+    fetch(`https://yz.lol.qq.com/v1/zh_cn/search/index.json`).then(async res => {
+        const { factions } = await res.json()
+        // console.log(factions)
+        regions.factions = factions
+        regions.factions.forEach((item:any) => {
+            fetch(`https://yz.lol.qq.com/v1/zh_cn/factions/${item.slug}/index.json`).then(async result => {
+                const factions  = await result.json()
+                item.factions = factions
+            })
+        })
+        
+
+    })
+}
+useGetRegions()
 </script>
 
 <style></style>
