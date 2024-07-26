@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-19 23:18:08
+ * @LastEditTime : 2024-07-26 23:07:22
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -84,30 +84,30 @@ export const information = [
     },
     component: () => import("@/views/LOL.vue"),
   },
-  {
-    path: "Movie",
-    name: "Movie",
-    meta: {
-      keepAlive: true,
-      title: "影视",
-      auth: true,
-      affix: true,
-      icon: "",
-    },
-    component: () => import("@/views/Movie.vue"),
-  },
-  {
-    path: "Animal",
-    name: "Animal",
-    meta: {
-      keepAlive: true,
-      title: "生肖",
-      auth: true,
-      affix: true,
-      icon: "",
-    },
-    component: () => import("@/views/Animal.vue"),
-  },
+  // {
+  //   path: "Movie",
+  //   name: "Movie",
+  //   meta: {
+  //     keepAlive: true,
+  //     title: "影视",
+  //     auth: true,
+  //     affix: true,
+  //     icon: "",
+  //   },
+  //   component: () => import("@/views/Movie.vue"),
+  // },
+  // {
+  //   path: "Animal",
+  //   name: "Animal",
+  //   meta: {
+  //     keepAlive: true,
+  //     title: "生肖",
+  //     auth: true,
+  //     affix: true,
+  //     icon: "",
+  //   },
+  //   component: () => import("@/views/Animal.vue"),
+  // },
   {
     path: "Secrecy",
     name: "Secrecy",

@@ -1,24 +1,24 @@
 <template>
     <div class="pt-2 flex flex-col h-full relative">
         <div class="w-full  py-4  w-full max-w-screen-lg gap-2 px-2 mx-auto animate__animated animate__fadeIn">
-            <div v-if="heroList.version" class="text-center pb-6">{{ heroList.fileTime }} - Version{{ heroList.version
+            <div v-if="heroList.version" class="text-center pb-2">{{ heroList.fileTime }} - Version{{ heroList.version
                 }}
             </div>
-            <div class="flex my-2 gap-2">
-                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
-                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.hero }" @click="activeTab = tabs.hero">英雄</div>
-                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
-                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.equip }" @click="activeTab = tabs.equip">装备</div>
-                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer"
-                    :class="{ 'bg-slate-500 text-white': activeTab === tabs.regions }" @click="activeTab = tabs.regions">地区</div>
+            <div class="flex my-2 gap-4 justify-center">
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
+                    :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.hero }" @click="activeTab = tabs.hero">英雄</div>
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
+                    :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.equip }" @click="activeTab = tabs.equip">装备</div>
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
+                    :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.regions }" @click="activeTab = tabs.regions">地区</div>
             </div>
 
             <div v-if="activeTab === tabs.hero">
                 <input v-if="!isShowDetails" v-model="searchHero"
-                    class="outline-none mb-2 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400"
+                    class="outline-none my-4 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400 mimesis_in"
                     placeholder="请输入英雄名称">
                 <div v-if="!isShowDetails" class="grid gap-4 md:grid-cols-3 grid-cols-1">
-                    <Heros v-for="hero in renderHeroList" :hero="hero" :key="hero.heroId" @click="useHeroDetails(hero)"/>
+                    <Heros class="mimesis" v-for="hero in renderHeroList" :hero="hero" :key="hero.heroId" @click="useHeroDetails(hero)"/>
                 </div>
                 <div v-else>
                     <div>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <span @click="isShowDetails = false"
-                        class="fixed bottom-10 right-10 px-10 py-3 cursor-pointer bg-slate-200 hover:bg-slate-400 hover:text-white rounded-lg mx-auto">返回</span>
+                        class="fixed bottom-10 right-10 px-10 py-3 cursor-pointer bg-slate-200 hover:font-semibold rounded-lg mx-auto mimesis">返回</span>
                 </div>
 
             </div>
@@ -71,14 +71,14 @@
                         </div>
                         <Titles v-if="activeEquip.into.length"  title="可以合成"/>
                         <div v-if="activeEquip.into.length" class="pl-4 text-sm px-4" >
-                            <Equip v-for="equip in filterEquipList(activeEquip.into)" :key="equip.itemId" class="mb-2" :equip="equip"/>
+                            <Equip  v-for="equip in filterEquipList(activeEquip.into)" :key="equip.itemId" class="mb-2" :equip="equip"/>
                         </div>
                         <span @click="activeEquip = null"
-                        class="fixed bottom-10 right-10 px-10 py-3 cursor-pointer bg-slate-200 hover:bg-slate-400 hover:text-white rounded-lg mx-auto">返回</span>
+                        class="fixed bottom-10 right-10 px-10 py-3 cursor-pointer bg-slate-200 hover:font-semibold rounded-lg mx-auto mimesis">返回</span>
                     </div>
                     <template  v-else >
                         <input v-model="searchEquip"
-                            class="outline-none mb-2 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400"
+                            class="outline-none my-4 px-4 py-2 placeholder:italic rounded-lg w-full placeholder:text-slate-400 mimesis_in"
                             placeholder="请输入装备名称">
                         <div class="grid gap-4 md:grid-cols-4 grid-cols-2">
                             <Equip v-for="equip in renderEquipList" :key="equip.itemId"  @click="useEquipClick(equip)" :equip="equip"/>
