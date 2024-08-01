@@ -74,10 +74,10 @@ export const menus = [
 export const information = [
   {
     path: "LOL",
-    name: "LOL",
+    name: "lol",
     meta: {
       keepAlive: true,
-      title: "LOL",
+      title: "lol",
       auth: true,
       affix: true,
       icon: "",

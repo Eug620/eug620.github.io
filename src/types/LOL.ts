@@ -70,5 +70,7 @@ export enum rolesType {
 export enum tabs {
     hero = 'hero',
     equip = 'equip',
-    regions = 'regions'
+    regions = 'regions',
+    summonerskill = 'summonerskill',
+    rune = 'rune'
 }

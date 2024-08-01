@@ -10,6 +10,10 @@
                 <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
                     :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.equip }" @click="activeTab = tabs.equip">装备</div>
                 <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
+                    :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.summonerskill }" @click="activeTab = tabs.summonerskill">技能</div>
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
+                    :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.rune }" @click="activeTab = tabs.rune">天赋</div>
+                <div class="px-4 py-2 bg-slate-200 rounded-lg cursor-pointer mimesis"
                     :class="{ 'font-semibold underline underline-offset-4': activeTab === tabs.regions }" @click="activeTab = tabs.regions">地区</div>
             </div>
 
@@ -94,6 +98,32 @@
                         <Titles  :title="region?.name"/>
                         <div class="indent-4 text-sm px-4" v-html="region?.factions?.faction?.overview?.short">
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="activeTab === tabs.summonerskill">
+                <template v-for="(v,k) in Summonerskill.summonerskill_list" :key="k">
+                    <div v-if="v.name && v.gamemode" class="mb-4">
+                        <div class="flex">
+                            <img :src="v.icon" alt="" class="w-20 h-20 my-auto mr-4">
+                            <div class="flex-1 text-sm">
+                                <div>名称：{{ v.name }}</div>
+                                <div>介绍：{{ v.description }}</div>
+                                <div>冷却：{{ v.cooldown }}s</div>
+                                <div>模式：{{ v.gamemode }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div v-if="activeTab === tabs.rune">
+                <!-- {{ Rune.rune }} -->
+                <div v-for="(v,k) in Rune.rune " :key="k" class="py-4 px-2 flex" :class="[!v.styleName && !v.slotLabel && !v.longdesc && 'bg-slate-200 rounded-lg']">
+                    <img :src="v.icon" alt="" class="w-10 1-20 my-auto mr-4">
+                    <div class="flex-1 text-sm" >
+                        <div>名称：{{ v.name }}</div>
+                        <div v-if="v.styleName || v.slotLabel">属于：<span v-if="v.styleName" class="mr-4">{{ v.styleName }}</span><span>{{ v.slotLabel }}</span></div>
+                        <div v-if="v.longdesc">介绍：{{ v.longdesc.replace(/<br>/g, "\n        ").split('\n        ').filter((v:any) => v).join('\n        ').replace(/<[^>]+>/g, "") }}</div>
                     </div>
                 </div>
             </div>
@@ -263,6 +293,40 @@ const useGetRegions = () => {
     })
 }
 useGetRegions()
+
+/**
+ * 召唤师技能
+ * https://game.gtimg.cn/images/lol/act/img/js/summonerskillList/summonerskill_list.js
+ */
+const Summonerskill = reactive<any>({
+    summonerskill_list: []
+})
+const useGetSummonerskill = () => {
+    fetch(`https://game.gtimg.cn/images/lol/act/img/js/summonerskillList/summonerskill_list.js`).then(async res => {
+        const { summonerskill } = await res.json()
+        Summonerskill.summonerskill_list = summonerskill
+    })
+}
+useGetSummonerskill()
+
+/**
+ * 天赋
+ * https://game.gtimg.cn/images/lol/act/img/js/runeList/rune_list.js
+ */
+const Rune = reactive<any>({
+    rune: []
+})
+const useGetRune = () => {
+    fetch(`https://game.gtimg.cn/images/lol/act/img/js/runeList/rune_list.js`).then(async res => {
+        const { rune } = await res.json()
+        Rune.rune = rune
+    })
+}
+useGetRune()
+/**
+ * https://game.gtimg.cn/images/lol/act/img/js/runeList/rune_list.js
+ * https://101.qq.com/js/api.js?20230724
+ */
 </script>
 
 <style></style>
