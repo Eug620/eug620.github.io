@@ -13,8 +13,7 @@
     <div id="map-panel" class="fixed w-80 left-0 top-1/2 -translate-y-1/2" v-show="searchVal"></div>
     <div id="map-search" class="top-16  w-full fixed ">
         <input @change="useSearchChange" v-model="searchVal"
-            class="w-80 outline-none px-4 py-2 placeholder:italic placeholder:text-slate-400"
-            placeholder="请输入检索信息">
+            class="w-80 outline-none px-4 py-2 placeholder:italic placeholder:text-slate-400" placeholder="请输入检索信息">
     </div>
 </template>
 
@@ -65,8 +64,34 @@ onMounted(() => {
                 //关键字查询
                 // placeSearch.value.search('北京大学');
             });
+            //异步加载控件
+            AMap.plugin('AMap.ToolBar', function () {
+                var toolbar = new AMap.ToolBar({position: 'RT'}); //缩放工具条实例化
+                map.addControl(toolbar); //添加控件
+            });
+            AMap.plugin('AMap.Scale', function () {
+                var scale = new AMap.Scale(); //缩放工具条实例化
+                map.addControl(scale); //添加控件
+            });
+            // AMap.plugin('AMap.HawkEye', function () {
+            //     var HawkEye = new AMap.HawkEye(); //缩放工具条实例化
+            //     map.addControl(HawkEye); //添加控件
+            // });
+            AMap.plugin('AMap.ControlBar', function () {
+                var ControlBar = new AMap.ControlBar({position:'RB'}); //缩放工具条实例化
+                map.addControl(ControlBar); //添加控件
+            });
+            AMap.plugin('AMap.CitySearch', function () {
+                const CitySearch = new AMap.CitySearch()
+                CitySearch.getLocalCity((type:string, info:any) => {
+                    if (type === "complete") {
+                        // map.setCenter([116.333926, 39.997245])
+                        console.log('当前城市：',info);
+                    }
+                })
+            });
         })
-        .catch((e:Error) => {
+        .catch((e: Error) => {
             console.log(e);
         });
 });
@@ -84,9 +109,7 @@ onUnmounted(() => {
     height: 100%;
 }
 
-#map-panel {
-}
+#map-panel {}
 
-#map-search {
-}
+#map-search {}
 </style>
