@@ -10,11 +10,9 @@
 -->
 <template>
     <div id="map-container"></div>
-    <div id="map-panel" class="fixed w-80 left-0 top-1/2 -translate-y-1/2" v-show="searchVal"></div>
-    <div id="map-search" class="top-16  w-full fixed ">
-        <input @change="useSearchChange" v-model="searchVal"
-            class="w-80 outline-none px-4 py-2 placeholder:italic placeholder:text-slate-400" placeholder="请输入检索信息">
-    </div>
+    <div id="map-panel" class="fixed w-80 left-2 top-16" v-show="searchVal"></div>
+    <input  @change="useSearchChange" v-model="searchVal"
+        class="w-80 top-16 left-1/2 rounded-full -translate-x-1/2 fixed outline-none px-4 py-2 placeholder:italic placeholder:text-slate-400" placeholder="请输入检索信息">
 </template>
 
 <script setup lang="ts">
@@ -53,7 +51,7 @@ onMounted(() => {
             AMap.plugin(["AMap.PlaceSearch"], function () {
                 //构造地点查询类
                 placeSearch.value = new AMap.PlaceSearch({
-                    pageSize: 6, // 单页显示结果条数
+                    pageSize: 8, // 单页显示结果条数
                     pageIndex: 1, // 页码
                     city: "010", // 兴趣点城市
                     citylimit: false,  //是否强制限制在设置的城市内搜索
@@ -66,7 +64,7 @@ onMounted(() => {
             });
             //异步加载控件
             AMap.plugin('AMap.ToolBar', function () {
-                var toolbar = new AMap.ToolBar({position: 'RT'}); //缩放工具条实例化
+                var toolbar = new AMap.ToolBar({position: 'RB',offset: [30,100]}); //缩放工具条实例化
                 map.addControl(toolbar); //添加控件
             });
             AMap.plugin('AMap.Scale', function () {
@@ -90,6 +88,34 @@ onMounted(() => {
                     }
                 })
             });
+            AMap.plugin('AMap.Geolocation', function() {
+                var geolocation = new AMap.Geolocation({
+                    enableHighAccuracy: true, // 是否使用高精度定位，默认：true
+                    timeout: 10000, // 设置定位超时时间，默认：无穷大
+                    offset: [10, 20],  // 定位按钮的停靠位置的偏移量
+                    zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                    position: 'LT' //  定位按钮的排放位置,  RB表示右下
+                })
+
+                geolocation.getCurrentPosition(function(status:string,result:any){
+                        if(status=='complete'){
+                            onComplete(result)
+                        }else{
+                            onError(result)
+                        }
+                });
+
+                function onComplete (data:any) {
+                    // data是具体的定位信息
+                    console.log(data)
+                }
+
+                function onError (data:any) {
+                    // 定位出错
+                    console.log('err',data)
+
+                }
+            })
         })
         .catch((e: Error) => {
             console.log(e);
@@ -101,6 +127,12 @@ const useSearchChange = () => {
 onUnmounted(() => {
     map?.destroy();
 });
+
+document.addEventListener('keydown',(e)=>{
+    if(e.altKey&&e.keyCode===70){
+        console.log('alt+f');
+    }
+})
 </script>
 
 <style>
