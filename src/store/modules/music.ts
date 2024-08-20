@@ -16,7 +16,7 @@ interface TypeMusicInfo {
     auther: string;
     id: string;
     name: string;
-    picUrl: string;
+    pic_url: string;
     url: string;
 }
 export const useMusicStore = defineStore({
@@ -26,7 +26,7 @@ export const useMusicStore = defineStore({
         id: '',
         name: '',
         auther: '',
-        picUrl: '',
+        pic_url: '',
         url: '',
         className: 'store-music',
         currentTime: 0,
@@ -70,7 +70,7 @@ export const useMusicStore = defineStore({
                 this.auther = info.auther
                 this.id = info.id
                 this.name = info.name
-                this.picUrl = info.picUrl
+                this.pic_url = info.pic_url
                 this.url = info.url
                 this.currentTime = 0
                 this.duration = 0

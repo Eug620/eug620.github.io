@@ -47,18 +47,6 @@ export const menus = [
     component: () => import("@/views/Books.vue"),
   },
   {
-    path: "Three",
-    name: "Three",
-    meta: {
-      keepAlive: true,
-      title: "绘制",
-      auth: true,
-      affix: true,
-      icon: "",
-    },
-    component: () => import("@/views/Three.vue"),
-  },
-  {
     path: "Map",
     name: "Map",
     meta: {
@@ -108,17 +96,29 @@ export const information = [
   //   },
   //   component: () => import("@/views/Animal.vue"),
   // },
+  // {
+  //   path: "Touch",
+  //   name: "Touch",
+  //   meta: {
+  //     keepAlive: true,
+  //     title: "Touch",
+  //     auth: true,
+  //     affix: true,
+  //     icon: "",
+  //   },
+  //   component: () => import("@/views/Touch.vue"),
+  // },
   {
-    path: "Touch",
-    name: "Touch",
+    path: "Three",
+    name: "Three",
     meta: {
       keepAlive: true,
-      title: "Touch",
+      title: "绘制",
       auth: true,
       affix: true,
       icon: "",
     },
-    component: () => import("@/views/Touch.vue"),
+    component: () => import("@/views/Three.vue"),
   },
   {
     path: "Secrecy",
@@ -149,7 +149,7 @@ export const information = [
 export default [
   {
     path: "/",
-    redirect: "Principal",
+    redirect: "About",
     component: () => import("@/layout/index.vue"),
     children: [...menus, ...information],
   },
