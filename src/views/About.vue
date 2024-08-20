@@ -9,8 +9,12 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
 -->
 <script setup lang="ts">
+import dayjs from 'dayjs'
+import { ref } from 'vue';
+const durations = ref(0)
 
 
+durations.value = dayjs().diff(dayjs(dayjs('2024.08.11')), 'day')
 </script>
 
 <template>
@@ -21,6 +25,7 @@
       <a href="https://juejin.cn/user/3650034336020430" class="About-button mimesis cursor-pointer">掘金</a>
       <a href="https://github.com/Eug620" class="About-button mimesis cursor-pointer">Github</a>
     </div>
+    <div class="text-sm mb-4 fixed right-20 bottom-10">戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
   </div>
 </template>
 
