@@ -19,13 +19,13 @@ durations.value = dayjs().diff(dayjs(dayjs('2024.08.11')), 'day')
 
 <template>
   <div class="text-center  leading-10 py-10">
-    <div class="text-2xl mb-6">Eug</div>
+    <div class="text-2xl mb-6 font-bold">Eug</div>
     <div class="text-sm mb-4">98年的糟老头子</div>
     <div class="text-sm mb-2 flex justify-center">
       <a href="https://juejin.cn/user/3650034336020430" class="About-button mimesis cursor-pointer">掘金</a>
       <a href="https://github.com/Eug620" class="About-button mimesis cursor-pointer">Github</a>
     </div>
-    <div class="text-sm mb-4 fixed right-20 bottom-10">戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
+    <div class="text-base mb-4 fixed right-20 bottom-10 italic">戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
   </div>
 </template>
 

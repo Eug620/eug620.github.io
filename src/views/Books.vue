@@ -10,16 +10,16 @@
 -->
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
-        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-2 px-2 mx-auto animate__animated animate__fadeIn"
+        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-4 px-2 mx-auto animate__animated animate__fadeIn"
             v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
-                class="cursor-pointer rounded-lg p-4 float-left bg-slate-200" :key="book.path">{{
+                class="cursor-pointer mimesis rounded-lg px-4 py-3 float-left bg-slate-200" :key="book.path">{{
                     book.name }}</div>
         </div>
         <div class="flex-1 animate__animated animate__fadeIn" v-else>
             <div class="px-4 w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="!isShowContent">
                 <div class="w-full py-2 relative text-center text-xl w-full  max-w-screen-lg mx-auto">
-                    <span class="absolute left-0 top-2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer"
+                    <span class="fixed bottom-6 right-6 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer mimesis"
                         @click="useBack(true)">返回书架</span>
                     {{ books.find(v => v.path === active)?.name }}
                 </div>
@@ -40,13 +40,13 @@
                     <div class="relative h-10 mt-4">
                         <span v-if="activeCatalogue !== compChapter[0].catalogue"
                             @click="getCatalogue(activeCatalogue - 1, true)"
-                            class="absolute left-0  top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">上一章</span>
+                            class="absolute mimesis left-6  top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">上一章</span>
                         <span
-                            class="absolute -translate-x-1/2 -translate-y-1/2 	 left-1/2 top-1/2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
+                            class="absolute mimesis -translate-x-1/2 -translate-y-1/2 	 left-1/2 top-1/2 py-1 text-base px-2 rounded-lg bg-slate-200 cursor-pointer"
                             @click="useBack()">返回目录</span>
                         <span v-if="activeCatalogue !== compChapter[compChapter.length - 1].catalogue"
                             @click="getCatalogue(activeCatalogue + 1, true)"
-                            class="absolute right-0 top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">下一章</span>
+                            class="absolute mimesis right-6 top-1/2 -translate-y-1/2 text-base py-1 px-2 rounded-lg  bg-slate-200 cursor-pointer">下一章</span>
                     </div>
                 </div>
 
