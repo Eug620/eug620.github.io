@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-23 23:55:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-06-04 00:01:00
+ * @LastEditTime : 2024-09-01 01:32:59
  * @FilePath     : /eug620.github.io/src/store/modules/models.ts
  * @Description  : filename
  *
@@ -20,11 +20,13 @@ interface Model {
     model: null | any;
     mixer: null | THREE.AnimationMixer,
     position: number[],
+    scale: number[],
     actions: THREE.AnimationAction[]
 }
 export const useModelsStore = defineStore({
     id: "app",
     state: () => ({
+        loader: new FBXLoader(),
         renderer: new THREE.WebGLRenderer({ antialias: true }),
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
@@ -42,33 +44,52 @@ export const useModelsStore = defineStore({
                 // url: "/Cheering.fbx",
                 // url:'/Dancing Twerk.fbx',
                 url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
-                position: [0, -50, 0],
+                position: [20, 0, 0],
+                scale: [.15, .15, .15],
                 model: null,
                 mixer: null,
                 actions: []
             },
-            // {
-            //     progress: 0,
-            //     key: "Dancing Twerk",
-            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/character.fbx",
-            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Punching Bag.fbx",
-            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Cheering.fbx",
-            //     // url: "/Dancing Twerk.fbx",
-            //     // url: "/Cheering.fbx",
-            //     url:'/Dancing Twerk.fbx',
-            //     // url:"https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
-            //     position:[0,50,0],
-            //     model: null,
-            //     mixer: null,
-            //     actions: []
-            // },
+            {
+                progress: 0,
+                key: "Dancing Twerk",
+                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/character.fbx",
+                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Punching Bag.fbx",
+                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Cheering.fbx",
+                // url: "/Dancing Twerk.fbx",
+                // url: "/Cheering.fbx",
+                // url:'/Dancing Twerk.fbx',
+                // url:"https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
+                // url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/Punching Bag.fbx",
+                url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/character.fbx",
+                position: [-20, 0, 0],
+                scale: [1.5, 1.5, 1.5],
+                model: null,
+                mixer: null,
+                actions: []
+            },
         ] as Model[],
+        keys: [
+            {
+                key: 'w',
+                index: 3,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/FastRun.fbx'
+            }
+        ] as any[]
     }),
     getters: {
     },
     actions: {
-        init(Doms: HTMLElement) {
+        async init(Doms: HTMLElement) {
             Doms.append(this.renderer.domElement);
+            await Promise.all(this.keys.map((k) => {
+                return new Promise(async (resolve) => {
+                    k.instancs = await this.loader.loadAsync(k.url)
+                    resolve(null)
+                })
+            }))
+            console.log(this.keys, 'this.keys')
 
             if (!this.isLoad) {
                 this.isLoad = true;
@@ -119,7 +140,7 @@ export const useModelsStore = defineStore({
                 plan.receiveShadow = true
                 this.scene.add(plan)
                 // 环境光源
-                const AmbientLight = new THREE.AmbientLight('#fff',.5)
+                const AmbientLight = new THREE.AmbientLight('#fff', .5)
                 AmbientLight.receiveShadow = true
                 this.scene.add(AmbientLight)
 
@@ -139,7 +160,7 @@ export const useModelsStore = defineStore({
 
                 spotLight.distance = 30
                 spotLight.shadow.radius = 10
-                
+
                 spotLight.castShadow = true;
                 spotLight.shadow.mapSize = new THREE.Vector2(200, 200)
                 spotLight.shadow.camera.far = 130
@@ -157,6 +178,7 @@ export const useModelsStore = defineStore({
 
         },
         async renderModels() {
+            console.log('renderModels')
             this.models.forEach(mod => {
                 mod.mixer?.update(this.clock.getDelta())
             })
@@ -170,8 +192,7 @@ export const useModelsStore = defineStore({
         },
         loadModels(model: Model): Promise<THREE.Object3D> {
             return new Promise(async (resolve) => {
-                const loader = new FBXLoader();
-                model.model = await loader.loadAsync(
+                model.model = await this.loader.loadAsync(
                     model.url,
                     (event: ProgressEvent) => {
                         model.progress =
@@ -180,20 +201,35 @@ export const useModelsStore = defineStore({
                 );
                 model.model.castShadow = true;
 
-                this.scene.add(model.model);
-                console.log(model.model.scale.set);
-                model.model.scale.set(.15, .15, .15)
-
+                model.model.scale.set(...model.scale)
+                model.model.position.set(...model.position)
 
                 model.mixer = new THREE.AnimationMixer(model.model)
                 model.model.animations.forEach((item: THREE.AnimationClip, idx: number) => {
                     model.actions[idx] = (model.mixer as THREE.AnimationMixer).clipAction(item)
                 })
-
-                model.actions.forEach(item => item.play())
-
+                /**
+                 * 测试动作
+                 */
+                // console.log(this.keys[0].instancs,'>>>>')
+                this.keys[0].instancs.animations.forEach((item: THREE.AnimationClip) => {
+                    model.actions[2] = (model.mixer as THREE.AnimationMixer).clipAction(item)
+                })
+                //
+                // model.actions.forEach(item => item.play())
+                this.scene.add(model.model);
                 resolve(model.model);
             });
         },
+        async setAnimations(index: number, idx: number) {
+            console.log('setAnimations:', index, idx)
+            this.models[index].actions.forEach((actions, i) => {
+                if (idx !== i) {
+                    actions.stop()
+                } else {
+                    actions.play()
+                }
+            })
+        }
     },
 });
