@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 23:03:24
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-01 01:31:06
+ * @LastEditTime : 2024-09-05 22:34:26
  * @FilePath     : /eug620.github.io/src/views/Three.vue
  * @Description  : filename
  * 
@@ -26,16 +26,18 @@ onMounted(() => {
     modelsStore.init(refsThree.value)
 })
 const keycode = ref<null | number>(null)
-window.addEventListener('keydown', (e:KeyboardEvent) => {
-    if (keycode.value !== e.keyCode) {
+
+window.addEventListener('keydown', (e: KeyboardEvent) => {
+    console.log(e.key)
+    const current = modelsStore.keys.find((v:any) => v.key === e.key)
+    if (current && keycode.value !== e.keyCode) {
         keycode.value = e.keyCode
-        modelsStore.setAnimations(0,2)
+        modelsStore.setAnimations(0, current.index)
     }
 })
 window.addEventListener('keyup', () => {
     keycode.value = null
-    modelsStore.setAnimations(0,0)
-
+    modelsStore.setAnimations(0, 0)
 })
 </script>
 

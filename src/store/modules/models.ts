@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-23 23:55:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-01 01:32:59
+ * @LastEditTime : 2024-09-05 22:33:02
  * @FilePath     : /eug620.github.io/src/store/modules/models.ts
  * @Description  : filename
  *
@@ -44,38 +44,80 @@ export const useModelsStore = defineStore({
                 // url: "/Cheering.fbx",
                 // url:'/Dancing Twerk.fbx',
                 url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
-                position: [20, 0, 0],
+                position: [0, 1, 0],
                 scale: [.15, .15, .15],
                 model: null,
                 mixer: null,
                 actions: []
             },
-            {
-                progress: 0,
-                key: "Dancing Twerk",
-                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/character.fbx",
-                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Punching Bag.fbx",
-                // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Cheering.fbx",
-                // url: "/Dancing Twerk.fbx",
-                // url: "/Cheering.fbx",
-                // url:'/Dancing Twerk.fbx',
-                // url:"https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
-                // url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/Punching Bag.fbx",
-                url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/character.fbx",
-                position: [-20, 0, 0],
-                scale: [1.5, 1.5, 1.5],
-                model: null,
-                mixer: null,
-                actions: []
-            },
+            // {
+            //     progress: 0,
+            //     key: "Dancing Twerk",
+            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/character.fbx",
+            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Punching Bag.fbx",
+            //     // url: "//cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Cheering.fbx",
+            //     // url: "/Dancing Twerk.fbx",
+            //     // url: "/Cheering.fbx",
+            //     // url:'/Dancing Twerk.fbx',
+            //     // url:"https://unpkg.com/e-cdn@1.0.0/micro-vue/Cheering.fbx",
+            //     // url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/Punching Bag.fbx",
+            //     url: "https://unpkg.com/e-cdn@1.0.0/micro-vue/character.fbx",
+            //     position: [-20, 0, 0],
+            //     scale: [1.5, 1.5, 1.5],
+            //     model: null,
+            //     mixer: null,
+            //     actions: []
+            // },
         ] as Model[],
         keys: [
             {
+                key: 'q',
+                index: 0,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Crazy Gesture.fbx'
+            },
+            {
                 key: 'w',
-                index: 3,
+                index: 1,
                 instancs: null,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/FastRun.fbx'
-            }
+            },
+            {
+                key: 'e',
+                index: 2,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Fighting Idle.fbx'
+            },
+            {
+                key: 'r',
+                index: 3,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Hip Hop Dancing.fbx'
+            },
+            {
+                key: 'a',
+                index: 4,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Jab Cross.fbx'
+            },
+            {
+                key: 's',
+                index: 5,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Praying.fbx'
+            },
+            {
+                key: 'd',
+                index: 6,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Samba Dancing.fbx'
+            },
+            {
+                key: 'f',
+                index: 7,
+                instancs: null,
+                url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Whatever Gesture.fbx'
+            },
         ] as any[]
     }),
     getters: {
@@ -215,8 +257,13 @@ export const useModelsStore = defineStore({
                 this.keys[0].instancs.animations.forEach((item: THREE.AnimationClip) => {
                     model.actions[2] = (model.mixer as THREE.AnimationMixer).clipAction(item)
                 })
-                //
+                this.keys.forEach(key=> {
+                    key.instancs.animations.forEach((item: THREE.AnimationClip) => {
+                        model.actions[key.index] = (model.mixer as THREE.AnimationMixer).clipAction(item)
+                    })
+                })
                 // model.actions.forEach(item => item.play())
+                model.actions[0].play()
                 this.scene.add(model.model);
                 resolve(model.model);
             });
