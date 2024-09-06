@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-23 23:55:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-06 23:50:44
+ * @LastEditTime : 2024-09-07 02:03:34
  * @FilePath     : /eug620.github.io/src/store/modules/models.ts
  * @Description  : filename
  *
@@ -14,6 +14,8 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { toRaw } from "vue";
 import Stats from 'three/addons/libs/stats.module.js';
+import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
+import { random } from 'lodash'
 
 interface Model {
     progress: number;
@@ -136,14 +138,14 @@ export const useModelsStore = defineStore({
     actions: {
         async init(Doms: HTMLElement) {
             Doms.append(this.renderer.domElement);
-            Doms.append( this.stats.dom );
+            Doms.append(this.stats.dom);
             this.stats.dom.style.position = 'fixed'
             this.stats.dom.style.top = '3.5rem'
             this.stats.dom.style.bottom = '0'
 
             await Promise.all(this.keys.map((k) => {
                 return new Promise(async (resolve) => {
-                    k.instancs = await this.loader.loadAsync(k.url,(event: ProgressEvent) => {
+                    k.instancs = await this.loader.loadAsync(k.url, (event: ProgressEvent) => {
                         k.progress =
                             Math.round((event.loaded / event.total) * 100 * 100) / 100;
                     })
@@ -179,19 +181,29 @@ export const useModelsStore = defineStore({
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
                 directionalLight.position.set(10, 0, 10);
                 this.scene.add(directionalLight);
-                
-                const light = new THREE.PointLight('#ffffff', 5);
-                light.intensity = 999
-                light.position.set(0, 30, 0);
+
+
+                const light = new THREE.PointLight('#e2e1e4', 0);
+                light.intensity = 6999
+                light.position.set(0, 60, 0);
                 light.visible = true
                 light.castShadow = true;
                 this.scene.add(light);
                 this.scene.add(new THREE.PointLightHelper(light)) // 光源辅助器
+                fetch('https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/colors.json').then(async res => {
+                    const colors = await res.json() || []
+                    if (!colors.length) return
+                    setInterval(() => {
+                        const idx = random(0, colors.length - 1)
+                        console.log(idx)
 
+                        light.color.set(colors[idx]?.hex)
+                    }, 60000)
+                })
                 // 地板 - 网格
-                const helper = new THREE.GridHelper(800, 800, '#fff', '#ccc');
-                helper.receiveShadow = true;
-                this.scene.add(helper);
+                // const helper = new THREE.GridHelper(800, 800, '#fff', '#ccc');
+                // helper.receiveShadow = true;
+                // this.scene.add(helper);
 
                 // 地板 - 可以反光的地板
                 const PlaneGeometry = new THREE.PlaneGeometry(800, 800)
@@ -201,36 +213,54 @@ export const useModelsStore = defineStore({
                 plan.receiveShadow = true
                 this.scene.add(plan)
                 // 环境光源
-                const AmbientLight = new THREE.AmbientLight('#fff', .5)
-                AmbientLight.receiveShadow = true
-                this.scene.add(AmbientLight)
+                // const AmbientLight = new THREE.AmbientLight('#fff', .5)
+                // AmbientLight.receiveShadow = true
+                // this.scene.add(AmbientLight)
 
                 // 设置光照
                 // 半球光
-                const hemisphereLight = new THREE.HemisphereLight('#ffffff', '#000000', 4);
-                hemisphereLight.position.set(100, 100, 100);
-                this.scene.add(hemisphereLight);
+                // const hemisphereLight = new THREE.HemisphereLight('#ffffff', '#000000', 1.4);
+                // hemisphereLight.position.set(0, 50, 0);
+                // this.scene.add(hemisphereLight);
 
 
                 // 聚光灯
-                const spotLight = new THREE.SpotLight('#ffffff', 2)
-                spotLight.position.set(50, 50, 50)
-                spotLight.angle = Math.PI / 8
-                spotLight.penumbra = .2
-                spotLight.decay = 2
+                // const spotLight = new THREE.SpotLight('#ffffff', 2)
+                // spotLight.position.set(50, 50, 50)
+                // spotLight.angle = Math.PI / 8
+                // spotLight.penumbra = .2
+                // spotLight.decay = 2
 
-                spotLight.distance = 30
-                spotLight.shadow.radius = 10
+                // spotLight.distance = 30
+                // spotLight.shadow.radius = 10
 
-                spotLight.castShadow = true;
-                spotLight.shadow.mapSize = new THREE.Vector2(200, 200)
-                spotLight.shadow.camera.far = 130
-                spotLight.shadow.camera.near = .5
-                this.scene.add(spotLight);
+                // spotLight.castShadow = true;
+                // spotLight.shadow.mapSize = new THREE.Vector2(200, 200)
+                // spotLight.shadow.camera.far = 130
+                // spotLight.shadow.camera.near = .5
+                // this.scene.add(spotLight);
 
                 // 交互
                 const controls = new OrbitControls(this.camera, this.renderer.domElement);
                 controls.update();
+
+                new PLYLoader().load('https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Lucy100k.ply', (geometry) => {
+
+                    geometry.scale(0.024, 0.024, 0.024);
+                    geometry.computeVertexNormals();
+
+                    const material = new THREE.MeshLambertMaterial();
+
+                    const mesh = new THREE.Mesh(geometry, material);
+                    mesh.rotateY(60)
+                    mesh.position.y = 19;
+                    mesh.position.x = -30;
+                    mesh.position.z = -30;
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+                    this.scene.add(mesh);
+
+                });
 
 
                 this.initModels();
@@ -261,6 +291,7 @@ export const useModelsStore = defineStore({
                     }
                 );
                 model.model.castShadow = true;
+                model.model.receiveShadow = true;
 
                 model.model.scale.set(...model.scale)
                 model.model.position.set(...model.position)
@@ -273,10 +304,7 @@ export const useModelsStore = defineStore({
                  * 测试动作
                  */
                 // console.log(this.keys[0].instancs,'>>>>')
-                this.keys[0].instancs.animations.forEach((item: THREE.AnimationClip) => {
-                    model.actions[2] = (model.mixer as THREE.AnimationMixer).clipAction(item)
-                })
-                this.keys.forEach(key=> {
+                this.keys.forEach(key => {
                     key.instancs.animations.forEach((item: THREE.AnimationClip) => {
                         model.actions[key.index] = (model.mixer as THREE.AnimationMixer).clipAction(item)
                     })
