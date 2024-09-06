@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-23 23:55:32
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-05 22:33:02
+ * @LastEditTime : 2024-09-06 23:50:44
  * @FilePath     : /eug620.github.io/src/store/modules/models.ts
  * @Description  : filename
  *
@@ -13,6 +13,8 @@ import { FBXLoader } from "three/examples/jsm/Addons.js";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { toRaw } from "vue";
+import Stats from 'three/addons/libs/stats.module.js';
+
 interface Model {
     progress: number;
     key: string;
@@ -31,6 +33,7 @@ export const useModelsStore = defineStore({
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
         clock: new THREE.Clock(),
+        stats: new Stats(),
         mixer: {},
         isLoad: false,
         models: [
@@ -74,48 +77,56 @@ export const useModelsStore = defineStore({
                 key: 'q',
                 index: 0,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Crazy Gesture.fbx'
             },
             {
                 key: 'w',
                 index: 1,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/FastRun.fbx'
             },
             {
                 key: 'e',
                 index: 2,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Fighting Idle.fbx'
             },
             {
                 key: 'r',
                 index: 3,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Hip Hop Dancing.fbx'
             },
             {
                 key: 'a',
                 index: 4,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Jab Cross.fbx'
             },
             {
                 key: 's',
                 index: 5,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Praying.fbx'
             },
             {
                 key: 'd',
                 index: 6,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Samba Dancing.fbx'
             },
             {
                 key: 'f',
                 index: 7,
                 instancs: null,
+                progress: 0,
                 url: 'https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/Whatever Gesture.fbx'
             },
         ] as any[]
@@ -125,9 +136,17 @@ export const useModelsStore = defineStore({
     actions: {
         async init(Doms: HTMLElement) {
             Doms.append(this.renderer.domElement);
+            Doms.append( this.stats.dom );
+            this.stats.dom.style.position = 'fixed'
+            this.stats.dom.style.top = '3.5rem'
+            this.stats.dom.style.bottom = '0'
+
             await Promise.all(this.keys.map((k) => {
                 return new Promise(async (resolve) => {
-                    k.instancs = await this.loader.loadAsync(k.url)
+                    k.instancs = await this.loader.loadAsync(k.url,(event: ProgressEvent) => {
+                        k.progress =
+                            Math.round((event.loaded / event.total) * 100 * 100) / 100;
+                    })
                     resolve(null)
                 })
             }))
@@ -160,7 +179,7 @@ export const useModelsStore = defineStore({
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
                 directionalLight.position.set(10, 0, 10);
                 this.scene.add(directionalLight);
-
+                
                 const light = new THREE.PointLight('#ffffff', 5);
                 light.intensity = 999
                 light.position.set(0, 30, 0);
@@ -220,7 +239,6 @@ export const useModelsStore = defineStore({
 
         },
         async renderModels() {
-            console.log('renderModels')
             this.models.forEach(mod => {
                 mod.mixer?.update(this.clock.getDelta())
             })
@@ -228,6 +246,7 @@ export const useModelsStore = defineStore({
                 toRaw(this.scene),
                 toRaw(this.camera)
             );
+            this.stats.update()
         },
         async initModels() {
             await Promise.all(this.models.map(this.loadModels));
