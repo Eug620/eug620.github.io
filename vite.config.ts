@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     visualizer({
-      filename: "visualizer.html",
+      filename: "./dist/visualizer.html",
     }),
   ],
   resolve: {

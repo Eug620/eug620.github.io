@@ -2,14 +2,14 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-09-27 22:07:52
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-28 00:49:49
+ * @LastEditTime : 2024-09-28 01:04:50
  * @FilePath     : /eug620.github.io/src/views/MBTI.vue
  * @Description  : filename
  * 
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
 -->
 <template>
-    <div class="mbti p-4  md:w-1/2 w-full m-auto text-sm h-full">
+    <div class="mbti p-4  md:w-1/2 w-full m-auto text-sm h-full leading-6">
         <div class="flex text-center px-10 font-black gap-10 text-4xl h-full items-center content-around" v-if="Type === PageType.index">
             <div class="flex-1 mimesis md:py-40 py-10" @click="useAnswer(0)">28题</div>
             <div class="flex-1 mimesis md:py-40 py-10" @click="useAnswer(1)">93题</div>
@@ -48,7 +48,6 @@
                         {{ person?.msg }}
 
                     </div>
-                    <span class="font-semibold">{{ person.name }}</span>:{{ person?.msg }}
                 </div>
             </div>
             <div class="font-black text-xl my-4 text-center">优点</div>

@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-07-26 23:56:39
+ * @LastEditTime : 2024-09-28 01:12:57
  * @FilePath     : /eug620.github.io/src/views/About.vue
  * @Description  : filename
  * 
@@ -14,7 +14,7 @@ import { ref } from 'vue';
 const durations = ref(0)
 
 
-durations.value = dayjs().diff(dayjs(dayjs('2024.08.11')), 'day')
+durations.value = dayjs().diff('2024.08.11', 'day')
 </script>
 
 <template>
