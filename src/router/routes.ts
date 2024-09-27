@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-07-26 23:07:22
+ * @LastEditTime : 2024-09-27 20:36:59
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -131,6 +131,18 @@ export const information = [
       icon: "",
     },
     component: () => import("@/views/Secrecy.vue"),
+  },
+  {
+    path: "Retire",
+    name: "Retire",
+    meta: {
+      keepAlive: true,
+      title: "退休计算器",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Retire.vue"),
   },
   {
     path: "About",
