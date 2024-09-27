@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-09-27 20:36:59
+ * @LastEditTime : 2024-09-27 22:07:55
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -131,6 +131,18 @@ export const information = [
       icon: "",
     },
     component: () => import("@/views/Secrecy.vue"),
+  },
+  {
+    path: "MBTI",
+    name: "MBTI",
+    meta: {
+      keepAlive: true,
+      title: "MBTI",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/MBTI.vue"),
   },
   {
     path: "Retire",
