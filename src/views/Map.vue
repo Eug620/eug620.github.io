@@ -83,8 +83,8 @@ onMounted(() => {
                 const CitySearch = new AMap.CitySearch()
                 CitySearch.getLocalCity((type:string, info:any) => {
                     console.log('getLocalCity:',type, info)
-                    localStorage.setItem('getLocalCity-type', type)
-                    localStorage.setItem('getLocalCity-info', JSON.stringify(type))
+                    // localStorage.setItem('getLocalCity-type', type)
+                    // localStorage.setItem('getLocalCity-info', JSON.stringify(type))
                     if (type === "complete") {
                         // map.setCenter([116.333926, 39.997245])
                         console.log('当前城市：',info);
@@ -102,8 +102,8 @@ onMounted(() => {
 
                 geolocation.getCurrentPosition(function(status:string,result:any){
                         console.log('getCurrentPosition:',status, result)
-                        localStorage.setItem('getCurrentPosition-status', status)
-                        localStorage.setItem('getCurrentPosition-result', JSON.stringify(result))
+                        // localStorage.setItem('getCurrentPosition-status', status)
+                        // localStorage.setItem('getCurrentPosition-result', JSON.stringify(result))
                         if(status=='complete'){
                             onComplete(result)
                         }else{

@@ -9,15 +9,15 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved. 
 -->
 <script setup lang="ts">
-// import dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { ref } from 'vue';
 const durations = ref(0)
 
 
-// durations.value = dayjs().diff('2024.08.11', 'day')
-durations.value = Math.floor(
-  (Date.now() - (new Date('2024.08.11')).getTime()) / (24 * 60 * 60 * 1000)
-)
+durations.value = dayjs().diff('2024.08.11', 'day')
+// durations.value = Math.floor(
+//   (Date.now() - (new Date('2024.08.11')).getTime()) / (24 * 60 * 60 * 1000)
+// )
 </script>
 
 <template>
