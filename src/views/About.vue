@@ -31,7 +31,6 @@ durations.value = dayjs().diff('2024.08.11', 'day')
     <div class="text-base mb-4 fixed right-20 bottom-10 italic text-right">
       <div>戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
       <div class="text-xl">Become a better self</div>
-      <div>{{ dayjs() }}</div>
     </div>
   </div>
 </template>
