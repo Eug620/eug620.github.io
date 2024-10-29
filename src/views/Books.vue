@@ -10,11 +10,13 @@
 -->
 <template>
     <div class="books pt-2 flex flex-col h-full relative">
-        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-4 px-2 mx-auto animate__animated animate__fadeIn"
+        <div class="w-full  py-4 flex flex-wrap  w-full max-w-screen-lg gap-4 px-2 mx-auto animate__animated animate__fadeIn grid grid-cols-2 gap-4 md:grid-cols-4"
             v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
-                class="cursor-pointer mimesis rounded-lg px-4 py-3 float-left bg-slate-200" :key="book.path">{{
-                    book.name }}</div>
+                class="cursor-pointer mimesis rounded-lg bg-slate-200 flex-col	overflow-hidden	" :key="book.path">
+                    <img :src="imgsMap[book.path]" alt="">
+                    <div class="py-4 font-medium">{{book.name }}</div>
+                </div>
         </div>
         <div class="flex-1 animate__animated animate__fadeIn" v-else>
             <div class="px-4 w-full max-w-screen-lg mx-auto animate__animated animate__fadeIn" v-if="!isShowContent">
@@ -79,6 +81,15 @@ const isShowContent = ref(false)
 const isShowLoading = ref(false)
 const isShowCatalogue = ref(true)
 const BaseURL = 'https://unpkg.com/e-bookstore@1.0.3'
+const imgsMap:any = {
+    sm: 'https://bookcover.yuewen.com/qdbimg/349573/63856/180.webp',
+    zt: 'https://bookcover.yuewen.com/qdbimg/349573/1735921/300.webp',
+
+    sx: 'https://cdn.wtzw.com/bookimg/public/images/cover/f0e5/edbe4638e39afaf69b073f34ef774bc9_360x480.jpg',
+    jl: 'https://cdn.wtzw.com/bookimg/public/images/cover/9bf3/67d084cd5ded2bd3d64b0cc8bd1dbed8_360x480.jpg',
+    wmsj: 'https://cdn.wtzw.com/bookimg/public/images/cover/f0e5/676479f407a99ae8710b4391e8ca17de_360x480.jpg',
+    xzhdx: 'https://cdn.wtzw.com/bookimg/public/images/cover/9bf3/72f92bff3e813f80d21870bc60f47d60_360x480.jpg',
+}
 onMounted(() => {
     watchEffect(() => {
         if (!isShowCatalogue.value) {
