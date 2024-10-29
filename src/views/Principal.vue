@@ -70,7 +70,7 @@ onMounted(() => {
 <template>
   <div class="text-center h-full items-center flex flex-col py-4">
     <div class="text-center max-w-screen-lg mx-auto flex-1 h-full px-10 content-center base-typed-container"></div>
-    <Footers class=" max-w-screen-lg mx-auto my-4" />
+    <Footers class=" max-w-screen-lg mx-auto my-4 animate__animated animate__slow animate__fadeInUp" />
   </div>
 </template>
 

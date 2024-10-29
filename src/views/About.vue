@@ -29,8 +29,8 @@ durations.value = dayjs().diff('2024.08.11', 'day')
       <a href="https://github.com/Eug620" class="About-button mimesis cursor-pointer">Github</a>
     </div>
     <div class="text-base mb-4 fixed right-20 bottom-10 italic text-right">
-      <div>戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
-      <div class="text-xl">Become a better self</div>
+      <div class="animate__animated animate__slow animate__fadeInRight">戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
+      <div class="text-xl animate__animated animate__delay-1s animate__slow animate__fadeInRight">Become a better self</div>
     </div>
   </div>
 </template>
