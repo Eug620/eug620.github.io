@@ -14,7 +14,7 @@
             v-if="isShowCatalogue">
             <div v-for="book in books" @click="getChapter(book.path)"
                 class="cursor-pointer mimesis rounded-lg bg-slate-200 flex-col	overflow-hidden	" :key="book.path">
-                    <img :src="imgsMap[book.path]" alt="">
+                    <img class="w-full" :src="`${BaseURL}${book.imgs}`" alt="">
                     <div class="py-4 font-medium">{{book.name }}</div>
                 </div>
         </div>
@@ -65,6 +65,7 @@ import { useDBStore } from '@/store/modules/database'
 const db = useDBStore()
 interface Books {
     name: string
+    imgs: string
     path: string
 }
 const books = ref<Books[]>([])
@@ -80,16 +81,7 @@ const content = ref<Content>({})
 const isShowContent = ref(false)
 const isShowLoading = ref(false)
 const isShowCatalogue = ref(true)
-const BaseURL = 'https://unpkg.com/e-bookstore@1.0.3'
-const imgsMap:any = {
-    sm: 'https://bookcover.yuewen.com/qdbimg/349573/63856/180.webp',
-    zt: 'https://bookcover.yuewen.com/qdbimg/349573/1735921/300.webp',
-
-    sx: 'https://cdn.wtzw.com/bookimg/public/images/cover/f0e5/edbe4638e39afaf69b073f34ef774bc9_360x480.jpg',
-    jl: 'https://cdn.wtzw.com/bookimg/public/images/cover/9bf3/67d084cd5ded2bd3d64b0cc8bd1dbed8_360x480.jpg',
-    wmsj: 'https://cdn.wtzw.com/bookimg/public/images/cover/f0e5/676479f407a99ae8710b4391e8ca17de_360x480.jpg',
-    xzhdx: 'https://cdn.wtzw.com/bookimg/public/images/cover/9bf3/72f92bff3e813f80d21870bc60f47d60_360x480.jpg',
-}
+const BaseURL = 'https://unpkg.com/e-bookstore@1.0.4'
 onMounted(() => {
     watchEffect(() => {
         if (!isShowCatalogue.value) {
