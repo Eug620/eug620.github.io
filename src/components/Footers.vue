@@ -4,7 +4,7 @@
             <router-link :to="rt.path">{{ rt.meta.title }}</router-link>
         </div>
         <div v-for="m in menus" :key="m.path" class="cursor-pointer">
-            <a :href="m.path">{{ m.name }}</a>
+            <a :href="m.path" target="_blank">{{ m.name }}</a>
         </div>
     </div>
 </template>
