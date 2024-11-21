@@ -61,6 +61,18 @@ export const menus = [
 ]
 export const information = [
   {
+    path: "Repl",
+    name: "Repl",
+    meta: {
+      keepAlive: true,
+      title: "Repl",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Repl.vue"),
+  },
+  {
     path: "LOL",
     name: "lol",
     meta: {

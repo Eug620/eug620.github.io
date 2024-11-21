@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vue/compiler-sfc": "^3.5.13",
+    "@vue/repl": "^4.4.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.11",
     "localforage": "^1.10.0",
@@ -17,7 +19,7 @@
     "three": "^0.164.1",
     "typed.js": "^2.1.0",
     "uuid": "^10.0.0",
-    "vue": "^3.4.21",
+    "vue": "^3.5.13",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
