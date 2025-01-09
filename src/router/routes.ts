@@ -169,6 +169,18 @@ export const information = [
     component: () => import("@/views/Retire.vue"),
   },
   {
+    path: "Scroll",
+    name: "Scroll",
+    meta: {
+      keepAlive: true,
+      title: "视差",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Scroll.vue"),
+  },
+  {
     path: "About",
     name: "About",
     meta: {
