@@ -9,17 +9,19 @@
                 <button @click="useSubmit" class="px-6 py-2  rounded-lg  bg-slate-200 "
                     :class="[(!dbTitle || !dbPassworld || !dbContent) && !status ? 'cursor-not-allowed' : 'cursor-pointer']"
                     :disabled="(!dbTitle || !dbPassworld || !dbContent) && !status">{{ status ? '解析' : '存储' }}</button>
-                    <button @click="useNewSave" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 cursor-pointer"
+                <button @click="useNewSave" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 cursor-pointer"
                     v-if="dbID && !status">另存</button>
-                    <button @click="useCancel" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 cursor-pointer"
-                    >{{status ? '取消' : '清空'}}</button>
+                <button @click="useCancel" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 cursor-pointer">{{ status ?
+                    '取消' : '清空'}}</button>
+                <button @click="useDelete" class="px-6 py-2 ml-4 rounded-lg  bg-slate-200 text-rose-500 cursor-pointer"
+                    v-if="dbID && !status">删除</button>
             </div>
 
         </div>
 
         <div class="gap-2 flex flex-col my-2 cursor-pointer">
             <div @click="useGetContent(s)" class="bg-slate-200 rounded-lg p-2" v-for="s in secrecy" :key="s">
-                {{ s?.key}}
+                {{ s?.key }}
                 <span class=" float-right">{{ dayjs(s?.timeStamp).format('YYYY-MM-DD HH:mm:ss') }} </span>
             </div>
         </div>
@@ -52,7 +54,7 @@ const useGetSecrecy = async () => {
     }
 }
 useGetSecrecy()
-const useNewSave= () => {
+const useNewSave = () => {
     newData.value = true
     useSubmit()
 }
@@ -62,7 +64,11 @@ const useSubmit = async () => {
         try {
             const content: any = await db.secrecy.getItem(dbID.value)
             dbContent.value = Crypto.decrypt(content?.value, dbPassworld.value)
-            status.value = false
+            if (dbContent.value ){
+                status.value = false
+            } else {
+                throw new Error()
+            }
         } catch (_) {
             alert('密码错误，解析失败！')
         }
@@ -95,7 +101,13 @@ const useGetContent = (s: any) => {
     dbContent.value = ''
     status.value = true
 }
-
+const useDelete = async () => {
+    if (dbID.value) {
+        await db.secrecy.removeItem(dbID.value)
+        useCancel()
+        useGetSecrecy()
+    }
+}
 const useCancel = () => {
     dbID.value = ''
     status.value = false
