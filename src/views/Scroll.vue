@@ -20,18 +20,19 @@
         </div>
 
         <!-- 方式3 -->
+        <div class="parallax__bg" v-if="type == 3"  />
         <div class="parallax" v-if="type == 3">
-            <img class="parallax__bg"
-                src="https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/a44ef1e6-6696-4ff9-acdd-45b771fd3fec.png"
-                alt="" />
-            <img class="parallax__dust" src="../assets/Scroll/img1.png" alt="" />
-            <img class="parallax__luna" src="../assets/Scroll/img2.png" alt="" />
-            <img class="parallax__rays" src="../assets/Scroll/img3.png" alt="" />
+            <div class="parallax-height"></div>
+            <img class="parallax__dust" loading="lazy"
+                src="https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/img1.png" alt="" />
+            <img class=" parallax__rays" loading="lazy"
+                src="https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/img2.png" alt="" />
+            <!-- <img class="parallax__luna" src="https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/img3.png" alt="" /> -->
         </div>
 
 
         <!-- tab -->
-        <div class="fixed left-1/2 bottom-10 z-10 bg-white flex -translate-x-1/2 px-6 py-3 rounded-full gap-4">
+        <div class="fixed text-nowrap left-1/2 bottom-10 z-10 bg-white flex -translate-x-1/2 px-6 py-3 rounded-full gap-4">
             <div @click="type = 1" :class="type == 1 && 'text-orange-500'">方式1</div>
             <div @click="type = 2" :class="type == 2 && 'text-orange-500'">方式2</div>
             <div @click="type = 3" :class="type == 3 && 'text-orange-500'">方式3</div>
@@ -53,7 +54,7 @@ section {
     color: #fff;
     line-height: 100vh;
     text-align: center;
-    font-size: 20vh;
+    font-size: 15vw;
 }
 
 .g-img1 {
@@ -138,7 +139,6 @@ section {
     top: 30%;
     left: 50%;
     position: absolute;
-    font-size: 15vw;
     font-family: 'Franklin Gothic Heavy';
     font-size: 15vw;
     color: white;
@@ -153,7 +153,7 @@ section {
     contain: paint;
     position: relative;
     z-index: 0;
-    min-height: 75vh;
+    min-height: 100vh;
     display: grid;
     grid-template-areas: "stack";
 }
@@ -173,21 +173,47 @@ section {
 }
 
 .parallax__bg {
-    height: 100%;
+    background-image: url("https://cdn.jsdelivr.net/gh/eug620/Pics@master/micro-vue/a44ef1e6-6696-4ff9-acdd-45b771fd3fec.png");
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+.parallax-height {
+    height: 200vh;
 }
 
 .parallax__dust {
-    --parallax-speed: -20;
+    --parallax-speed: -2;
     z-index: 2;
+    position: fixed;
+    left: 10vw;
+    width: 35vw;
+    top: 50vh;
+    transform: translateY(-50%);
 }
 
-.parallax__luna {
-    --parallax-speed: 50;
-    z-index: 3;
-}
+// .parallax__luna {
+//     --parallax-speed: 5;
+//     position: fixed;
+//     left: 50vw;
+//     width: 30rem;
+//     top: 50vh;
+//     transform: translate(-50%, -50%);
+//     z-index: 3;
+// }
 
 .parallax__rays {
-    --parallax-speed: 100;
+    --parallax-speed: 8;
     z-index: 4;
+    position: fixed;
+    right: 10vw;
+    width: 35vw;
+    top: 50vh;
+    transform: translateY(-50%);
 }
 </style>

@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-07-19 01:50:09
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-07-19 02:08:16
+ * @LastEditTime : 2025-01-12 16:46:21
  * @FilePath     : /eug620.github.io/src/components/Spells.vue
  * @Description  : filename
  * 
@@ -10,7 +10,7 @@
 -->
 <template>
     <div class="flex my-2 items-center px-4">
-        <img :src="spells?.abilityIconPath" class="mr-4 w-20 h-20 rounded-lg" alt="">
+        <img :src="spells?.abilityIconPath" loading="lazy" class="mr-4 w-20 h-20 rounded-lg" alt="">
         <div>
             <div>
                 <template v-if="pre">{{ pre }}:</template>

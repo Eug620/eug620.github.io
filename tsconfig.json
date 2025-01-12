@@ -24,6 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/utils/transformers.min.js", "src/worker/FBXLoaderWorker.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/worker/FBXLoaderWorker.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
