@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-26 23:57:43
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2024-05-27 23:19:33
+ * @LastEditTime : 2025-01-18 17:01:21
  * @FilePath     : /eug620.github.io/src/views/Map.vue
  * @Description  : filename
  * 
@@ -113,7 +113,14 @@ onMounted(() => {
 
                 function onComplete (data:any) {
                     // data是具体的定位信息
-                    console.log(data)
+                    console.log('onComplete:',data)
+                    map.setCenter([data.position.lng,data.position.lat])
+                    var marker = new AMap.Marker({
+                        position: new AMap.LngLat(data.position.lng,data.position.lat),
+                        icon: 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+                        anchor: 'center',
+                    });
+                    map.add(marker);
                 }
 
                 function onError (data:any) {
