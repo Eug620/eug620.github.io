@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2025-01-18 21:57:35
+ * @LastEditTime : 2025-01-19 00:01:40
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -61,6 +61,18 @@ export const menus = [
 ]
 export const information = [
   {
+    path: "Playlet",
+    name: "Playlet",
+    meta: {
+      keepAlive: true,
+      title: "短剧",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Playlet.vue"),
+  },
+  {
     path: "Caricature",
     name: "Caricature",
     meta: {
@@ -77,7 +89,7 @@ export const information = [
     name: "History",
     meta: {
       keepAlive: true,
-      title: "History",
+      title: "对话",
       auth: true,
       affix: true,
       icon: "",
@@ -89,7 +101,7 @@ export const information = [
     name: "Repl",
     meta: {
       keepAlive: true,
-      title: "Repl",
+      title: "练习",
       auth: true,
       affix: true,
       icon: "",
