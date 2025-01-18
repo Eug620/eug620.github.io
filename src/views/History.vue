@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2025-01-17 22:19:03
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2025-01-18 17:11:31
+ * @LastEditTime : 2025-01-18 21:41:55
  * @FilePath     : /eug620.github.io/src/views/History.vue
  * @Description  : filename
  * 
@@ -93,8 +93,8 @@
 
 <script lang="ts" setup>
 import { ref, computed, nextTick } from 'vue'
-import { useDBStore } from '@/store/modules/database'
-const db = useDBStore()
+// import { useDBStore } from '@/store/modules/database'
+// const db = useDBStore()
 // 
 const width = ref(355)
 const historyStyle = computed(() => {
@@ -139,16 +139,24 @@ const useChooseAvatar = (event: Event, type: RecordsType) => {
 }
 const replyRecords = ref('')
 const deliverRecords = ref('')
-const recordsList = ref<RecordsItems[]>([])
+const recordsList = ref<RecordsItems[]>([
+    {
+        type: 'deliver',
+        message: '讲个笑话'
+    }
+])
 const useCreateRecords = (type: RecordsType) => {
     let message = ''
     if (type === 'reply') {
         message = replyRecords.value
+        if(!message.trim()) return
         replyRecords.value = ''
         // useSwitchControl(false)
     } else {
         message = deliverRecords.value
+        if(!message.trim()) return
         deliverRecords.value = ''
+        if (message.trim() === '讲个笑话')fetchJoke()
     }
     recordsList.value.push({ type, message })
     nextTick(() => {
@@ -157,15 +165,22 @@ const useCreateRecords = (type: RecordsType) => {
     })
 }
 const time = ref(`${new Date().getHours()}:${new Date().getMinutes()}`)
-const initHistory = async () => {
-    const _principal = await db.principal.keys()
-    const intervalCreate = setInterval(() => {
-        replyRecords.value = _principal.shift() as string
-        useCreateRecords('reply')
-        if (!_principal.length) clearInterval(intervalCreate)
-    }, 1000)
+const fetchJoke = async () => {
+    // const _principal = await db.principal.keys()
+    // const intervalCreate = setInterval(() => {
+    //     replyRecords.value = _principal.shift() as string
+    //     useCreateRecords('reply')
+    //     if (!_principal.length) clearInterval(intervalCreate)
+    // }, 1000)
+    fetch('https://api.vvhan.com/api/text/joke?type=json').then(async response => {
+        const result = await response.json()
+        if (result.success) {
+            replyRecords.value = result.data.content
+            useCreateRecords('reply')
+        }
+    })
 }
-initHistory()
+fetchJoke()
 
 </script>
 
@@ -240,6 +255,7 @@ initHistory()
     width: calc(var(--w) *120/1170);
     height: calc(var(--w) *120/1170);
     border-radius: calc(var(--w) *14/1170);
+    line-break: anywhere;
 }
 
 .reply {
@@ -249,6 +265,7 @@ initHistory()
     padding: calc(var(--w) *15/1170) calc(var(--w) *40/1170);
     border-radius: calc(var(--w) *14/1170);
     font-size: calc(var(--w) *50/1170);
+    line-break: anywhere;
 }
 
 .records-reply {

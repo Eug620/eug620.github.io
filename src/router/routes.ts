@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2025-01-17 22:19:38
+ * @LastEditTime : 2025-01-18 21:57:35
  * @FilePath     : /eug620.github.io/src/router/routes.ts
  * @Description  : filename
  * 
@@ -60,6 +60,18 @@ export const menus = [
   },
 ]
 export const information = [
+  {
+    path: "Caricature",
+    name: "Caricature",
+    meta: {
+      keepAlive: true,
+      title: "漫画",
+      auth: true,
+      affix: true,
+      icon: "",
+    },
+    component: () => import("@/views/Caricature.vue"),
+  },
   {
     path: "History",
     name: "History",
