@@ -7,34 +7,17 @@ import cdn from 'vite-plugin-cdn-import'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: "/",
-  optimizeDeps: {
-    exclude: ['@vue/repl'],
-  },
   plugins: [
     vue(),
     visualizer({
       filename: "./dist/visualizer.html",
     }),
     cdn({
-      prodUrl: 'https://unpkg.com/{name}@{version}/{path}',
       modules: [
-        {
-          name: '@vue/repl',
-          var: 'Repl',
-          path: 'https://cdn.jsdelivr.net/npm/@vue/repl@4.4.2/dist/vue-repl.js',
-          css: 'https://cdn.jsdelivr.net/npm/@vue/repl@4.4.2/dist/vue-repl.css'
-        },
-        {
-          name: '@vue/repl/monaco-editor',
-          var: 'Monaco',
-          path: 'https://cdn.jsdelivr.net/npm/@vue/repl@4.4.2/dist/monaco-editor.js',
-          css: 'https://cdn.jsdelivr.net/npm/@vue/repl@4.4.2/dist/monaco-editor.css'
-        },
-        {
-          name: 'three',
-          var: 'THREE',
-          path: 'https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.min.js',
-        },
+        'vue',
+        'vue-router',
+        'dayjs',
+        'lodash'
       ],
     }),
   ],
@@ -66,9 +49,9 @@ export default defineConfig({
       output: {
         // 拆分js
         manualChunks: {
-          // three: ["three"],
+          three: ["three"],
           lowdb: ["lowdb"],
-          lodash: ["lodash"],
+          // lodash: ["lodash"],
           localforage: ["localforage"],
         },
       },
