@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-22 22:05:28
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2025-07-29 09:35:09
+ * @LastEditTime : 2025-07-29 15:35:38
  * @FilePath     : /eug620.github.io/src/views/About.vue
  * @Description  : filename
  * 
@@ -21,13 +21,13 @@ durations.value = dayjs().diff('2025.07.14', 'day')
 </script>
 
 <template>
-  <div class="text-center  leading-10 py-10">
-    <div class="text-2xl mb-6 font-bold">Eug</div>
-    <div class="text-sm mb-4">98年的糟老头子</div>
-    <div class="text-sm mb-4">喜欢lsy</div>
-    <div class="text-sm mb-2 flex justify-center">
-      <a href="https://juejin.cn/user/3650034336020430" class="About-button mimesis cursor-pointer">掘金</a>
-      <a href="https://github.com/Eug620" class="About-button mimesis cursor-pointer">Github</a>
+  <div class="About-container">
+    <div class="About-container_title ">Eug</div>
+    <div class="About-container_desc">98年的糟老头子</div>
+    <div class="About-container_desc">喜欢lsy</div>
+    <div class="About-container_tag">
+      <a href="https://juejin.cn/user/3650034336020430" class="About-container_button mimesis">掘金</a>
+      <a href="https://github.com/Eug620" class="About-container_button mimesis">Github</a>
     </div>
     <div class="text-base mb-4 fixed right-20 bottom-10 italic text-right">
       <div class="animate__animated animate__slow animate__fadeInRight">戒烟第<span class="text-2xl font-bold mx-2">{{ durations }}</span>天</div>
@@ -36,10 +36,31 @@ durations.value = dayjs().diff('2025.07.14', 'day')
   </div>
 </template>
 
-<style scoped>
-.About-button {
-  width: 5rem;
-  height: 3rem;
-  margin: 0 .5rem;
+<style scoped lang="scss">
+.About-container {
+  @apply text-center leading-10 py-10;
+
+  .button {
+    width: 5rem;
+    height: 3rem;
+    margin: 0 .5rem;
+  }
+
+  &_title{
+    @apply text-2xl mb-6 font-bold;
+  }
+
+  &_desc{
+    @apply text-sm mb-4;
+  }
+
+  &_tag{
+    @apply text-sm mb-2 flex justify-center;
+  }
+
+  &_button {
+    @apply button  cursor-pointer;
+  }
 }
+
 </style>
