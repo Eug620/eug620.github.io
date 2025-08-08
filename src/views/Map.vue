@@ -2,7 +2,7 @@
  * @Author       : eug yyh3531@163.com
  * @Date         : 2024-05-26 23:57:43
  * @LastEditors  : eug yyh3531@163.com
- * @LastEditTime : 2025-01-18 17:01:21
+ * @LastEditTime : 2025-08-08 16:37:03
  * @FilePath     : /eug620.github.io/src/views/Map.vue
  * @Description  : filename
  * 
@@ -13,17 +13,40 @@
     <div id="map-panel" class="fixed w-80 left-2 top-16" v-show="searchVal"></div>
     <input  @change="useSearchChange" v-model="searchVal"
         class="w-80 top-16 left-1/2 rounded-full -translate-x-1/2 fixed outline-none px-4 py-2 placeholder:italic placeholder:text-slate-400" placeholder="请输入检索信息">
+        <div class="fixed h-1/2 w-80 rounded overflow-y-scroll p-2 bg-slate-100 right-2 top-16 " v-if="routes.length">
+            <div class="border rounded p-2" v-for="(route, idx) in routes" :key="idx">
+                <div class="flex gap-2 text-sm mb-2">
+                    <div class="">{{ route.policy }}</div>
+                    <div class="">距离: {{ route.distance >=1000 ? route.distance/1000 : route.distance}}{{ route.distance >=1000 ?'公里' : '米' }}</div>
+                    <div class="">用时: {{ dayjs.duration(route.time, 'seconds').format('HH:mm:ss')}}</div>
+                </div>
+                <div class="text-xs flex flex-col gap-2">
+                    <div class="" v-for="(step, i) in route.steps" :key="`${idx}-${i}`">
+                        <div class="">{{ step.instruction }}</div>
+                        <div class="">距离: {{ step.distance >= 1000 ? step.distance /1000 : step.distance  }}{{ step.distance >=1000 ?'公里' : '米' }}</div>
+                        <div class="">用时: {{ dayjs.duration(step.distance, 'seconds').format('HH:mm:ss') }}</div>
+                        <div class="">准备: {{ step.action }}</div>
+                        <div class="">朝向: {{ step.orientation }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, render } from 'vue'
 import AMapLoader from "@amap/amap-jsapi-loader";
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+dayjs.extend(duration);
 
 const searchVal = ref('')
 let map: any = null;
 
-const placeSearch = ref<any>(null)
-
+const placeSearch = ref<any>(null) // 地点查询实例
+const driving = ref<any>(null) // 驾车规划实例
+const currentPosition = ref<any>(null) // 当前位置
+const routes = ref<any[]>([]) // 路线规划结果
 onMounted(() => {
     window._AMapSecurityConfig = {
         securityJsCode: "e7f4cee517704978e3b8cd430e62ae9e",
@@ -59,6 +82,27 @@ onMounted(() => {
                     panel: "map-panel", // 结果列表将在此容器中进行展示。
                     autoFitView: false // 是否自动调整地图视野使绘制的 Marker点都处于视口的可见范围
                 });
+                // 点击查询路线
+                placeSearch.value.on('markerClick', (e: any) => {
+                    const {lat, lng} = e.marker.getPosition();
+                        // 点击地点查询结果的 marker 点时触发
+                      driving.value.search(
+                        [currentPosition.value.lng, currentPosition.value.lat],// 起点经纬度
+                        [lng, lat], // 终点经纬度
+                        // {
+                        //     policy: AMap.DrivingPolicy.LEAST_TIME, // 驾车策略 - 最少时间
+                        //     waypoints: [[116.333926, 39.997245]] // 途径点经纬度
+                        // },
+                        (status: string,info: any) => { // 路线规划
+                            if (status === 'complete') {
+                                console.log('路径规划完成',info.routes);
+                                routes.value = info.routes;
+                            } else {
+                                console.error('路径规划失败',info);
+                            }
+                        }
+                    );
+                });
                 //关键字查询
                 // placeSearch.value.search('北京大学');
             });
@@ -71,6 +115,14 @@ onMounted(() => {
                 var scale = new AMap.Scale(); //缩放工具条实例化
                 map.addControl(scale); //添加控件
             });
+            // 加载插件 - AMap.Driving
+            AMap.plugin('AMap.Driving', function () {
+                // 插件加载完成后，初始化 Driving 实例
+                driving.value = new AMap.Driving({
+                    // 使用上面得到的地图实例，表示，路径是画在我们当前初始化的这个地图上的
+                    map
+                });
+            })
             // AMap.plugin('AMap.HawkEye', function () {
             //     var HawkEye = new AMap.HawkEye(); //缩放工具条实例化
             //     map.addControl(HawkEye); //添加控件
@@ -101,11 +153,12 @@ onMounted(() => {
                 })
 
                 geolocation.getCurrentPosition(function(status:string,result:any){
-                        console.log('getCurrentPosition:',status, result)
+                        console.log('getCurrentPosition:',status, result,)
                         // localStorage.setItem('getCurrentPosition-status', status)
                         // localStorage.setItem('getCurrentPosition-result', JSON.stringify(result))
                         if(status=='complete'){
                             onComplete(result)
+                            currentPosition.value = result.position
                         }else{
                             onError(result)
                         }
