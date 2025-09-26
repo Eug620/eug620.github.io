@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, render } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import AMapLoader from "@amap/amap-jsapi-loader";
 import dayjs from 'dayjs'
 import duration from 'dayjs/plugin/duration'
